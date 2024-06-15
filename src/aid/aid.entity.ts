@@ -1,6 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from "typeorm";
-import { Ward } from "../ward/ward.entity";
-import { Applicant } from "../applicant/applicant.entity";
+import { User } from "src/user/user.entity";
 
 @Entity()
 export class Aid {
@@ -16,9 +15,9 @@ export class Aid {
   @Column()
   address: string;
 
-  @ManyToOne(() => Ward, (ward) => ward.aids)
-  ward: Ward;
+  @ManyToOne(() => User, (user) => user.aidAsWard, { nullable: true })
+  ward: User;
 
-  @ManyToOne(() => Applicant, (applicant) => applicant.aids)
-  applicant: Applicant;
+  @ManyToOne(() => User, (user) => user.aidAsApplicant, { nullable: true })
+  applicant: User;
 }

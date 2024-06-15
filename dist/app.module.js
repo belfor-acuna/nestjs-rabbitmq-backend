@@ -13,12 +13,10 @@ const app_controller_1 = require("./app.controller");
 const app_service_1 = require("./app.service");
 const auth_module_1 = require("./auth/auth.module");
 const typeorm_1 = require("@nestjs/typeorm");
-const ward_module_1 = require("./ward/ward.module");
-const applicant_module_1 = require("./applicant/applicant.module");
 const aid_module_1 = require("./aid/aid.module");
-const ward_entity_1 = require("./ward/ward.entity");
 const aid_entity_1 = require("./aid/aid.entity");
-const applicant_entity_1 = require("./applicant/applicant.entity");
+const user_module_1 = require("./user/user.module");
+const user_entity_1 = require("./user/user.entity");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -35,7 +33,7 @@ exports.AppModule = AppModule = __decorate([
                     username: configService.get('DB_USERNAME'),
                     password: configService.get('DB_PASSWORD'),
                     database: configService.get('DB_DATABASE'),
-                    entities: [ward_entity_1.Ward, aid_entity_1.Aid, applicant_entity_1.Applicant],
+                    entities: [aid_entity_1.Aid, user_entity_1.User],
                     synchronize: true,
                 }),
                 inject: [config_1.ConfigService],
@@ -44,9 +42,8 @@ exports.AppModule = AppModule = __decorate([
                 isGlobal: true,
                 envFilePath: '.env',
             }),
-            ward_module_1.WardModule,
-            applicant_module_1.ApplicantModule,
             aid_module_1.AidModule,
+            user_module_1.UserModule,
         ],
         controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService],
