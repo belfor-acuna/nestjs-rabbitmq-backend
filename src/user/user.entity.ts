@@ -14,6 +14,9 @@ export class User {
   lastName: string;
 
   @Column()
+  password: string;
+
+  @Column()
   age: number;
 
   @Column()
