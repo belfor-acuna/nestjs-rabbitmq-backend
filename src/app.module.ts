@@ -6,6 +6,9 @@ import { TypeOrmModule } from "@nestjs/typeorm";
 import { WardModule } from './ward/ward.module';
 import { ApplicantModule } from './applicant/applicant.module';
 import { AidModule } from './aid/aid.module';
+import { Ward } from "./ward/ward.entity";
+import { Aid } from "./aid/aid.entity";
+import { Applicant } from "./applicant/applicant.entity";
 @Module({
   imports: [
     AuthModule,
@@ -16,7 +19,7 @@ import { AidModule } from './aid/aid.module';
       username: "root",
       password: "root",
       database: "test",
-      entities: [],
+      entities: [Ward,Aid,Applicant],
       synchronize: true,
     }),
     WardModule,
