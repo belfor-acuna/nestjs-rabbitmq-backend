@@ -10,14 +10,32 @@ exports.AppModule = void 0;
 const common_1 = require("@nestjs/common");
 const app_controller_1 = require("./app.controller");
 const app_service_1 = require("./app.service");
-const user_module_1 = require("./user/user.module");
-const careService_module_1 = require("./careService/careService.module");
+const auth_module_1 = require("./auth/auth.module");
+const typeorm_1 = require("@nestjs/typeorm");
+const ward_module_1 = require("./ward/ward.module");
+const applicant_module_1 = require("./applicant/applicant.module");
+const aid_module_1 = require("./aid/aid.module");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
 exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
-        imports: [user_module_1.UserModule, careService_module_1.CareServiceModule],
+        imports: [
+            auth_module_1.AuthModule,
+            typeorm_1.TypeOrmModule.forRoot({
+                type: "mysql",
+                host: "localhost",
+                port: 3306,
+                username: "root",
+                password: "root",
+                database: "test",
+                entities: [],
+                synchronize: true,
+            }),
+            ward_module_1.WardModule,
+            applicant_module_1.ApplicantModule,
+            aid_module_1.AidModule,
+        ],
         controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService],
     })
