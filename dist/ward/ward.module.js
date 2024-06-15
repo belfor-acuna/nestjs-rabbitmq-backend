@@ -10,13 +10,16 @@ exports.WardModule = void 0;
 const common_1 = require("@nestjs/common");
 const ward_controller_1 = require("./ward.controller");
 const ward_service_1 = require("./ward.service");
+const typeorm_1 = require("@nestjs/typeorm");
+const ward_entity_1 = require("./ward.entity");
 let WardModule = class WardModule {
 };
 exports.WardModule = WardModule;
 exports.WardModule = WardModule = __decorate([
     (0, common_1.Module)({
+        imports: [typeorm_1.TypeOrmModule.forFeature([ward_entity_1.Ward])],
         controllers: [ward_controller_1.WardController],
-        providers: [ward_service_1.WardService]
+        providers: [ward_service_1.WardService],
     })
 ], WardModule);
 //# sourceMappingURL=ward.module.js.map

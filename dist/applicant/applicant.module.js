@@ -10,13 +10,16 @@ exports.ApplicantModule = void 0;
 const common_1 = require("@nestjs/common");
 const applicant_controller_1 = require("./applicant.controller");
 const applicant_service_1 = require("./applicant.service");
+const applicant_entity_1 = require("./applicant.entity");
+const typeorm_1 = require("@nestjs/typeorm");
 let ApplicantModule = class ApplicantModule {
 };
 exports.ApplicantModule = ApplicantModule;
 exports.ApplicantModule = ApplicantModule = __decorate([
     (0, common_1.Module)({
+        imports: [typeorm_1.TypeOrmModule.forFeature([applicant_entity_1.Applicant])],
         controllers: [applicant_controller_1.ApplicantController],
-        providers: [applicant_service_1.ApplicantService]
+        providers: [applicant_service_1.ApplicantService],
     })
 ], ApplicantModule);
 //# sourceMappingURL=applicant.module.js.map

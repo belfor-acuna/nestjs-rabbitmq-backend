@@ -10,11 +10,14 @@ exports.AidModule = void 0;
 const common_1 = require("@nestjs/common");
 const aid_controller_1 = require("./aid.controller");
 const aid_service_1 = require("./aid.service");
+const typeorm_1 = require("@nestjs/typeorm");
+const aid_entity_1 = require("./aid.entity");
 let AidModule = class AidModule {
 };
 exports.AidModule = AidModule;
 exports.AidModule = AidModule = __decorate([
     (0, common_1.Module)({
+        imports: [typeorm_1.TypeOrmModule.forFeature([aid_entity_1.Aid])],
         controllers: [aid_controller_1.AidController],
         providers: [aid_service_1.AidService]
     })
