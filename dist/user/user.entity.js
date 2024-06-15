@@ -12,7 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.User = void 0;
 const typeorm_1 = require("typeorm");
 const aid_entity_1 = require("../aid/aid.entity");
-const user_roles_1 = require("./user.roles");
+const roles_enum_1 = require("./roles/roles.enum");
 let User = class User {
 };
 exports.User = User;
@@ -21,23 +21,27 @@ __decorate([
     __metadata("design:type", Number)
 ], User.prototype, "id", void 0);
 __decorate([
-    (0, typeorm_1.Column)(),
+    (0, typeorm_1.Column)({ nullable: true }),
     __metadata("design:type", String)
 ], User.prototype, "firstName", void 0);
 __decorate([
-    (0, typeorm_1.Column)(),
+    (0, typeorm_1.Column)({ nullable: true }),
     __metadata("design:type", String)
 ], User.prototype, "lastName", void 0);
 __decorate([
     (0, typeorm_1.Column)(),
+    __metadata("design:type", String)
+], User.prototype, "password", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ nullable: true }),
     __metadata("design:type", Number)
 ], User.prototype, "age", void 0);
 __decorate([
-    (0, typeorm_1.Column)(),
+    (0, typeorm_1.Column)({ nullable: true }),
     __metadata("design:type", String)
 ], User.prototype, "address", void 0);
 __decorate([
-    (0, typeorm_1.Column)(),
+    (0, typeorm_1.Column)({ nullable: true }),
     __metadata("design:type", String)
 ], User.prototype, "phoneNumber", void 0);
 __decorate([
@@ -47,13 +51,12 @@ __decorate([
 __decorate([
     (0, typeorm_1.Column)({
         type: 'enum',
-        enum: user_roles_1.ROLES,
-        default: user_roles_1.ROLES.APPLICANT,
+        enum: roles_enum_1.ROLES,
     }),
-    __metadata("design:type", String)
+    __metadata("design:type", Array)
 ], User.prototype, "role", void 0);
 __decorate([
-    (0, typeorm_1.Column)('simple-array'),
+    (0, typeorm_1.Column)('simple-array', { nullable: true }),
     __metadata("design:type", Array)
 ], User.prototype, "services", void 0);
 __decorate([

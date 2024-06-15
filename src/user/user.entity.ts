@@ -1,28 +1,28 @@
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 import { Aid } from 'src/aid/aid.entity';
-import { ROLES} from './user.roles';
+import { ROLES } from './roles/roles.enum';
 
 @Entity()
 export class User {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({ nullable: true })
   firstName: string;
 
-  @Column()
+  @Column({ nullable: true })
   lastName: string;
 
   @Column()
   password: string;
 
-  @Column()
+  @Column({ nullable: true })
   age: number;
 
-  @Column()
+  @Column({ nullable: true })
   address: string;
 
-  @Column()
+  @Column({ nullable: true })
   phoneNumber: string;
 
   @Column()
@@ -31,11 +31,10 @@ export class User {
   @Column({
     type: 'enum',
     enum: ROLES,
-    default: ROLES.APPLICANT,
   })
-  role: string;
+  role: ROLES[];
 
-  @Column('simple-array')
+  @Column('simple-array', { nullable: true })
   services: string[];
 
   @OneToMany(() => Aid, (aid) => aid.ward)
