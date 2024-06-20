@@ -57,9 +57,9 @@ deploy:
     # SSH into the VPS and deploy the container
     - echo "Deploying container on VPS"
     - ssh $VPS_HOST "
-        sudo docker container stop $CONTAINER_NAME || true &&
-        sudo docker container rm $CONTAINER_NAME || true &&
-        sudo docker image rm $DOCKER_IMAGE_NAME || true &&
-        sudo docker load -i /ward/app/nestjs-app.tar &&
-        sudo docker-compose -f /ward/app/docker-compose.yml up -d
+        sudo -n docker container stop $CONTAINER_NAME || true &&
+        sudo -n docker container rm $CONTAINER_NAME || true &&
+        sudo -n docker image rm $DOCKER_IMAGE_NAME || true &&
+        sudo -n docker load -i /ward/app/nestjs-app.tar &&
+        sudo -n docker-compose -f /ward/app/docker-compose.yml up -d
       "
