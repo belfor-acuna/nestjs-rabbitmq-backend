@@ -32,8 +32,7 @@ deploy:
     - sudo apt-get install -y openssh-client
   script:
     # Ensure the destination directory exists
-    - ssh $VPS_HOST
-    - whoami
+    - ssh $VPS_HOST "whoami"
     - ssh $VPS_HOST "mkdir -p /ward/app"
     # Copy the image to the VPS
     - scp nestjs-app.tar $VPS_HOST:/ward/app/nestjs-app.tar
