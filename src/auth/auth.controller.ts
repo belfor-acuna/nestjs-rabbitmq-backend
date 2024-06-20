@@ -5,6 +5,7 @@ import { AuthGuard } from './guards/auth.guard';
 import { Roles } from 'src/user/roles/roles.decorator';
 import { ROLES } from 'src/user/roles/roles.enum';
 import { UserService } from 'src/user/user.service';
+import { RolesGuard } from 'src/user/roles/roles.guard';
 
 @Controller('auth')
 export class AuthController {
@@ -19,10 +20,10 @@ export class AuthController {
         return this.authService.signIn(signInDto.email,signInDto.password);
     }
 
-    @UseGuards(AuthGuard)
-    @Roles(ROLES.Applicant,ROLES.Ward)
-    @Get('profile')
-    getProfile(@Request() req){
+    @UseGuards(AuthGuard, RolesGuard)
+    @Roles(ROLES.Applicant, ROLES.Ward)
+    @Get('me')
+    getMe(@Request() req){
         return req.user
     }
 

@@ -9,7 +9,7 @@ export declare class User {
     address: string;
     phoneNumber: string;
     email: string;
-    role: ROLES[];
+    roles: ROLES[];
     services: string[];
     aidAsWard: Aid[];
     aidAsApplicant: Aid[];

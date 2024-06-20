@@ -12,7 +12,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.User = void 0;
 const typeorm_1 = require("typeorm");
 const aid_entity_1 = require("../aid/aid.entity");
-const roles_enum_1 = require("./roles/roles.enum");
 let User = class User {
 };
 exports.User = User;
@@ -49,12 +48,9 @@ __decorate([
     __metadata("design:type", String)
 ], User.prototype, "email", void 0);
 __decorate([
-    (0, typeorm_1.Column)({
-        type: 'enum',
-        enum: roles_enum_1.ROLES,
-    }),
+    (0, typeorm_1.Column)('simple-array'),
     __metadata("design:type", Array)
-], User.prototype, "role", void 0);
+], User.prototype, "roles", void 0);
 __decorate([
     (0, typeorm_1.Column)('simple-array', { nullable: true }),
     __metadata("design:type", Array)

@@ -35,7 +35,7 @@ let UserService = class UserService {
         const user = new user_entity_1.User();
         user.email = CreateAuthDto.email;
         user.password = CreateAuthDto.password;
-        user.role = [roles_enum_1.ROLES.Ward];
+        user.roles = [roles_enum_1.ROLES.Ward];
         return this.usersRepository.save(user);
     }
 };

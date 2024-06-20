@@ -9,30 +9,29 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.AuthService = void 0;
+exports.RolesGuard = void 0;
 const common_1 = require("@nestjs/common");
-const jwt_1 = require("@nestjs/jwt");
-const user_service_1 = require("../user/user.service");
-let AuthService = class AuthService {
-    constructor(usersService, jwtService) {
-        this.usersService = usersService;
-        this.jwtService = jwtService;
+const core_1 = require("@nestjs/core");
+const roles_decorator_1 = require("./roles.decorator");
+let RolesGuard = class RolesGuard {
+    constructor(reflector) {
+        this.reflector = reflector;
     }
-    async signIn(email, pass) {
-        const user = await this.usersService.findOneByEmail(email);
-        if (user?.password !== pass) {
-            throw new common_1.UnauthorizedException();
+    canActivate(context) {
+        const requiredRoles = this.reflector.getAllAndOverride(roles_decorator_1.ROLES_KEY, [
+            context.getHandler(),
+            context.getClass(),
+        ]);
+        if (!requiredRoles) {
+            return true;
         }
-        const payload = { userId: user.id, email: user.email, roles: user.roles };
-        return {
-            access_token: await this.jwtService.signAsync(payload),
-        };
+        const { user } = context.switchToHttp().getRequest();
+        return requiredRoles.some((role) => user.roles?.includes(role));
     }
 };
-exports.AuthService = AuthService;
-exports.AuthService = AuthService = __decorate([
+exports.RolesGuard = RolesGuard;
+exports.RolesGuard = RolesGuard = __decorate([
     (0, common_1.Injectable)(),
-    __metadata("design:paramtypes", [user_service_1.UserService,
-        jwt_1.JwtService])
-], AuthService);
-//# sourceMappingURL=auth.service.js.map
+    __metadata("design:paramtypes", [core_1.Reflector])
+], RolesGuard);
+//# sourceMappingURL=roles.guard.js.map

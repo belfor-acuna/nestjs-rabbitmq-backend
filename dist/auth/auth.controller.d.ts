@@ -8,6 +8,6 @@ export declare class AuthController {
     signIn(signInDto: CreateAuthDto): Promise<{
         access_token: string;
     }>;
-    getProfile(req: any): any;
+    getMe(req: any): any;
     registerWard(signupDto: CreateAuthDto): Promise<import("../user/user.entity").User>;
 }

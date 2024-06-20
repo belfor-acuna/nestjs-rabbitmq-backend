@@ -28,11 +28,8 @@ export class User {
   @Column()
   email: string;
 
-  @Column({
-    type: 'enum',
-    enum: ROLES,
-  })
-  role: ROLES[];
+  @Column('simple-array')
+  roles: ROLES[];
 
   @Column('simple-array', { nullable: true })
   services: string[];

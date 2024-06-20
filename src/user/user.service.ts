@@ -29,7 +29,7 @@ export class UserService {
     const user = new User();
     user.email = CreateAuthDto.email;
     user.password = CreateAuthDto.password;
-    user.role = [ROLES.Ward]
+    user.roles = [ROLES.Ward]
     return this.usersRepository.save(user);
   }
 

@@ -20,6 +20,7 @@ const auth_guard_1 = require("./guards/auth.guard");
 const roles_decorator_1 = require("../user/roles/roles.decorator");
 const roles_enum_1 = require("../user/roles/roles.enum");
 const user_service_1 = require("../user/user.service");
+const roles_guard_1 = require("../user/roles/roles.guard");
 let AuthController = class AuthController {
     constructor(authService, userService) {
         this.authService = authService;
@@ -28,7 +29,7 @@ let AuthController = class AuthController {
     signIn(signInDto) {
         return this.authService.signIn(signInDto.email, signInDto.password);
     }
-    getProfile(req) {
+    getMe(req) {
         return req.user;
     }
     registerWard(signupDto) {
@@ -45,14 +46,14 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], AuthController.prototype, "signIn", null);
 __decorate([
-    (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
+    (0, common_1.UseGuards)(auth_guard_1.AuthGuard, roles_guard_1.RolesGuard),
     (0, roles_decorator_1.Roles)(roles_enum_1.ROLES.Applicant, roles_enum_1.ROLES.Ward),
-    (0, common_1.Get)('profile'),
+    (0, common_1.Get)('me'),
     __param(0, (0, common_1.Request)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
-], AuthController.prototype, "getProfile", null);
+], AuthController.prototype, "getMe", null);
 __decorate([
     (0, common_1.HttpCode)(common_1.HttpStatus.OK),
     (0, common_1.Post)('register/ward'),
