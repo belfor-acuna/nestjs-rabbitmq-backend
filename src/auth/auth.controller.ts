@@ -6,6 +6,7 @@ import { Roles } from 'src/user/roles/roles.decorator';
 import { ROLES } from 'src/user/roles/roles.enum';
 import { UserService } from 'src/user/user.service';
 import { RolesGuard } from 'src/user/roles/roles.guard';
+import { Public } from './guards/public.auth.decorator';
 
 @Controller('auth')
 export class AuthController {
@@ -13,14 +14,14 @@ export class AuthController {
         private userService:UserService
     ){}
 
-
+    @Public()
     @HttpCode(HttpStatus.OK)
     @Post('login')
     signIn(@Body()signInDto: CreateAuthDto){
         return this.authService.signIn(signInDto.email,signInDto.password);
     }
 
-    @UseGuards(AuthGuard, RolesGuard)
+    
     @Roles(ROLES.Applicant, ROLES.Ward)
     @Get('me')
     getMe(@Request() req){

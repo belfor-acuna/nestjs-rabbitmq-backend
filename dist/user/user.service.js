@@ -18,6 +18,8 @@ const typeorm_1 = require("@nestjs/typeorm");
 const user_entity_1 = require("./user.entity");
 const typeorm_2 = require("typeorm");
 const roles_enum_1 = require("./roles/roles.enum");
+const user_dto_1 = require("./dto/user.dto");
+const class_transformer_1 = require("class-transformer");
 let UserService = class UserService {
     constructor(usersRepository) {
         this.usersRepository = usersRepository;
@@ -25,8 +27,13 @@ let UserService = class UserService {
     findAll() {
         return this.usersRepository.find();
     }
-    findOne(id) {
-        return this.usersRepository.findOneBy({ id });
+    async findOne(id) {
+        const foundUser = await this.usersRepository.findOneBy({ id });
+        if (!foundUser) {
+            throw new Error('User not found');
+        }
+        const userDto = (0, class_transformer_1.plainToClass)(user_dto_1.UserDto, foundUser, { excludeExtraneousValues: true });
+        return userDto;
     }
     findOneByEmail(email) {
         return this.usersRepository.findOneBy({ email });

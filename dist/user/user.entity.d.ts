@@ -4,10 +4,12 @@ export declare class User {
     id: number;
     firstName: string;
     lastName: string;
+    description: string;
     password: string;
     age: number;
     address: string;
     phoneNumber: string;
+    pricePerHour: number;
     email: string;
     roles: ROLES[];
     services: string[];

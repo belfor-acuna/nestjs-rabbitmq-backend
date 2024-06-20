@@ -13,6 +13,9 @@ export class User {
   @Column({ nullable: true })
   lastName: string;
 
+  @Column({nullable:true})
+  description: string
+
   @Column()
   password: string;
 
@@ -24,6 +27,10 @@ export class User {
 
   @Column({ nullable: true })
   phoneNumber: string;
+
+  //Price adjusted by the ward for pricing his services
+  @Column({nullable:true})
+  pricePerHour:number 
 
   @Column()
   email: string;
