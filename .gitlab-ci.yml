@@ -29,8 +29,6 @@ deploy:
   image: alpine:latest
   tags:
     - gc
-  before_script:
-    - apk add --no-cache openssh
   script:
     # Ensure the destination directory exists
     - ssh $VPS_HOST "mkdir -p /ward/app"
