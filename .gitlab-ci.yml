@@ -13,24 +13,23 @@ build_image:
     - gc
   script:
     # Remove any existing container and image
-    - sudo docker container stop $CONTAINER_NAME || true
-    - sudo docker container rm $CONTAINER_NAME || true
-    - sudo docker image rm $DOCKER_IMAGE_NAME || true
+    - docker container stop $CONTAINER_NAME || true
+    - docker container rm $CONTAINER_NAME || true
+    - docker image rm $DOCKER_IMAGE_NAME || true
     # Build the new image
-    - sudo docker build -t $DOCKER_IMAGE_NAME .
-    - sudo docker save -o nestjs-app.tar $DOCKER_IMAGE_NAME
-    - sudo chmod 644 nestjs-app.tar
+    - docker build -t $DOCKER_IMAGE_NAME .
+    - docker save -o nestjs-app.tar $DOCKER_IMAGE_NAME
   artifacts:
     paths:
       - nestjs-app.tar
 
 deploy:
   stage: deploy
-  image: bitnami/minideb:latest
+  image: alpine:latest
   tags:
     - gc
   before_script:
-    - sudo apt-get update && apt-get install -y openssh-client
+    - apk add --no-cache openssh
   script:
     # Ensure the destination directory exists
     - ssh $VPS_HOST "mkdir -p /ward/app"
