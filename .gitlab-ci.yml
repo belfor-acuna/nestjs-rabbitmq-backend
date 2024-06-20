@@ -48,6 +48,7 @@ deploy:
     - ssh -i ~/.ssh/id_rsa admin11@$VPS_IP "mkdir -p /ward/app && echo 'Directory created.'"
     - scp -i ~/.ssh/id_rsa nestjs-app.tar admin11@$VPS_IP:/ward/app
     - scp -i ~/.ssh/id_rsa docker-compose.yml admin11@$VPS_IP:/ward/app/docker-compose.yml
+    - scp -i ~/.ssh/id_rsa .env admin11@$VPS_IP:/ward/app/.env
     - echo "Deploying container on VPS"
     - ssh -i ~/.ssh/id_rsa admin11@$VPS_IP "/usr/bin/docker container stop $CONTAINER_NAME || true && /usr/bin/docker container rm $CONTAINER_NAME || true && /usr/bin/docker image rm $DOCKER_IMAGE_NAME || true && /usr/bin/docker load -i /ward/app/nestjs-app.tar &&
         cd /ward/app &&
