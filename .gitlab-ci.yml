@@ -19,7 +19,10 @@ build_image:
   - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
   - mkdir -p ~/.ssh
   - chmod 700 ~/.ssh
-  - ssh-keyscan $VPS_IP >> ~/.ssh/known_hosts
+  - >-
+      ssh-keygen -R $VPS_IP &&
+      ssh-keyscan $VPS_IP >> ~/.ssh/known_hosts &&
+      chmod 644 ~/.ssh/known_hosts
   - chmod 644 ~/.ssh/known_hosts
   script:
     # Remove any existing container and image
@@ -40,7 +43,10 @@ deploy:
   before_script:
     - sudo apt-get update
     - sudo apt-get install -y openssh-client
-    - ssh-keyscan $VPS_IP >> ~/.ssh/known_hosts
+    - >-
+      ssh-keygen -R $VPS_IP &&
+      ssh-keyscan $VPS_IP >> ~/.ssh/known_hosts &&
+      chmod 644 ~/.ssh/known_hosts
     - chmod 644 ~/.ssh/known_hosts
   script:
     # Ensure the destination directory exists
