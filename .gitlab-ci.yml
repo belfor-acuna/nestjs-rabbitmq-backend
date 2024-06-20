@@ -19,6 +19,7 @@ build_image:
     # Build the new image
     - sudo docker build -t $DOCKER_IMAGE_NAME .
     - sudo docker save -o nestjs-app.tar $DOCKER_IMAGE_NAME
+    - chmod 644 nestjs-app.tar
   artifacts:
     paths:
       - nestjs-app.tar
