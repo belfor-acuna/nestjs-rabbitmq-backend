@@ -57,6 +57,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], AuthController.prototype, "getMe", null);
 __decorate([
+    (0, public_auth_decorator_1.Public)(),
     (0, common_1.HttpCode)(common_1.HttpStatus.OK),
     (0, common_1.Post)('register/ward'),
     __param(0, (0, common_1.Body)()),
@@ -65,6 +66,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], AuthController.prototype, "registerWard", null);
 __decorate([
+    (0, public_auth_decorator_1.Public)(),
     (0, common_1.HttpCode)(common_1.HttpStatus.OK),
     (0, common_1.Post)('register/applicant'),
     __param(0, (0, common_1.Body)()),

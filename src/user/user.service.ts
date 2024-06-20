@@ -18,13 +18,8 @@ export class UserService {
     return this.usersRepository.find();
   }
 
-  async findOne(id: number): Promise<UserDto> {
-    const foundUser = await this.usersRepository.findOneBy({ id });
-    if (!foundUser) {
-      throw new Error('User not found');
-    }
-    const userDto = plainToClass(UserDto, foundUser, { excludeExtraneousValues: true });
-    return userDto;
+  async findOne(id: number): Promise<User> {
+    return await this.usersRepository.findOneBy({ id });
   }
 
   findOneByEmail(email: string): Promise<User | null> {

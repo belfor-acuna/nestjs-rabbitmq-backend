@@ -8,18 +8,57 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AidController = void 0;
 const common_1 = require("@nestjs/common");
 const aid_service_1 = require("./aid.service");
+const roles_decorator_1 = require("../user/roles/roles.decorator");
+const roles_enum_1 = require("../user/roles/roles.enum");
+const aid_dto_1 = require("./dto/aid.dto");
 let AidController = class AidController {
     constructor(aidService) {
         this.aidService = aidService;
     }
+    async requestAid(req, createAidDto) {
+        const { wardId, service } = createAidDto;
+        return await this.aidService.createAidRequest(req.user.userId, wardId, service);
+    }
+    async getPendingAids(req) {
+        console.log("User id:" + req.user.userId);
+        const { user } = req.user.userId;
+        const pendingAids = await this.aidService.findPendingAidsForWard(req.user.userId);
+        return { success: true, pendingAids };
+    }
+    catch(error) {
+        return {
+            success: false,
+            error: error.message || "Failed to fetch pending aids",
+        };
+    }
 };
 exports.AidController = AidController;
+__decorate([
+    (0, roles_decorator_1.Roles)(roles_enum_1.ROLES.Applicant),
+    (0, common_1.Post)("new"),
+    __param(0, (0, common_1.Request)()),
+    __param(1, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, aid_dto_1.CreateAidDto]),
+    __metadata("design:returntype", Promise)
+], AidController.prototype, "requestAid", null);
+__decorate([
+    (0, roles_decorator_1.Roles)(roles_enum_1.ROLES.Ward),
+    (0, common_1.Get)("ward/pending"),
+    __param(0, (0, common_1.Request)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], AidController.prototype, "getPendingAids", null);
 exports.AidController = AidController = __decorate([
-    (0, common_1.Controller)('aid'),
+    (0, common_1.Controller)("aid"),
     __metadata("design:paramtypes", [aid_service_1.AidService])
 ], AidController);
 //# sourceMappingURL=aid.controller.js.map

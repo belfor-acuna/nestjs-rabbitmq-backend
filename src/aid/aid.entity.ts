@@ -1,23 +1,30 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from "typeorm";
 import { User } from "src/user/user.entity";
+import { AidStatus } from "./enum/status.enum";
 
 @Entity()
 export class Aid {
   @PrimaryGeneratedColumn()
-  id_aid: number;
+  id: number;
 
-  @Column("decimal", { precision: 10, scale: 2 })
+  @Column("decimal", { precision: 10, scale: 2, nullable:true })
   cost: number;
 
-  @Column()
+  @Column({nullable:true})
   duration: string;
+
+  @Column()
+  service: string;
 
   @Column()
   address: string;
 
-  @ManyToOne(() => User, (user) => user.aidAsWard, { nullable: true })
+  @Column({ type: 'enum', enum: AidStatus, default: AidStatus.PENDING })
+  status: AidStatus;
+
+  @ManyToOne(() => User, (user) => user.aidAsWard)
   ward: User;
 
-  @ManyToOne(() => User, (user) => user.aidAsApplicant, { nullable: true })
+  @ManyToOne(() => User, (user) => user.aidAsApplicant)
   applicant: User;
 }
