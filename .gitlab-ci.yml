@@ -26,9 +26,12 @@ build_image:
 
 deploy:
   stage: deploy
-  image: alpine:latest
+  image: bitnami/minideb:latest
   tags:
     - gc
+  before_script:
+    # Install OpenSSH client
+    - install_packages openssh-client
   script:
     # Ensure the destination directory exists
     - ssh $VPS_HOST "mkdir -p /ward/app"
