@@ -11,8 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Aid = void 0;
 const typeorm_1 = require("typeorm");
-const ward_entity_1 = require("../ward/ward.entity");
-const applicant_entity_1 = require("../applicant/applicant.entity");
+const user_entity_1 = require("../user/user.entity");
 let Aid = class Aid {
 };
 exports.Aid = Aid;
@@ -33,12 +32,12 @@ __decorate([
     __metadata("design:type", String)
 ], Aid.prototype, "address", void 0);
 __decorate([
-    (0, typeorm_1.ManyToOne)(() => ward_entity_1.Ward, (ward) => ward.aids),
-    __metadata("design:type", ward_entity_1.Ward)
+    (0, typeorm_1.ManyToOne)(() => user_entity_1.User, (user) => user.aidAsWard, { nullable: true }),
+    __metadata("design:type", user_entity_1.User)
 ], Aid.prototype, "ward", void 0);
 __decorate([
-    (0, typeorm_1.ManyToOne)(() => applicant_entity_1.Applicant, (applicant) => applicant.aids),
-    __metadata("design:type", applicant_entity_1.Applicant)
+    (0, typeorm_1.ManyToOne)(() => user_entity_1.User, (user) => user.aidAsApplicant, { nullable: true }),
+    __metadata("design:type", user_entity_1.User)
 ], Aid.prototype, "applicant", void 0);
 exports.Aid = Aid = __decorate([
     (0, typeorm_1.Entity)()

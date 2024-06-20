@@ -4,12 +4,10 @@ import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
 import { AuthModule } from "./auth/auth.module";
 import { TypeOrmModule } from "@nestjs/typeorm";
-import { WardModule } from './ward/ward.module';
-import { ApplicantModule } from './applicant/applicant.module';
 import { AidModule } from './aid/aid.module';
-import { Ward } from "./ward/ward.entity";
 import { Aid } from "./aid/aid.entity";
-import { Applicant } from "./applicant/applicant.entity";
+import { UserModule } from './user/user.module';
+import { User } from "./user/user.entity";
 
 @Module({
   imports: [
@@ -23,7 +21,7 @@ import { Applicant } from "./applicant/applicant.entity";
         username: configService.get<string>('DB_USERNAME'),
         password: configService.get<string>('DB_PASSWORD'),
         database: configService.get<string>('DB_DATABASE'),
-        entities: [Ward, Aid, Applicant],
+        entities: [Aid, User],
         synchronize: true,
       }),
       inject: [ConfigService],
@@ -32,9 +30,8 @@ import { Applicant } from "./applicant/applicant.entity";
       isGlobal: true,
       envFilePath: '.env',
     }),
-    WardModule,
-    ApplicantModule,
     AidModule,
+    UserModule,
   ],
   controllers: [AppController],
   providers: [AppService],
