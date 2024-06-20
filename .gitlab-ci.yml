@@ -53,7 +53,7 @@ deploy:
     - scp -i ~/.ssh/id_rsa nestjs-app.tar admin11@$VPS_IP:/ward/app
     - scp -i ~/.ssh/id_rsa docker-compose.yml admin11@$VPS_IP:/ward/app/docker-compose.yml
     - ssh $VPS_HOST "echo -e 'DB_USERNAME=$DB_USERNAME\nDB_PASSWORD=$DB_PASSWORD\nDB_DATABASE=$DB_DATABASE\nDB_PORT=$DB_PORT\nJWT_SECRET=$JWT_SECRET' > /ward/app/.env"
-    
+    - scp -i ~/.ssh/id_rsa Dockerfile admin11@$VPS_IP:/ward/app/Dockerfile
     - echo "Deploying container on VPS"
     - ssh -i ~/.ssh/id_rsa admin11@$VPS_IP "/usr/bin/docker container stop $CONTAINER_NAME || true && /usr/bin/docker container rm $CONTAINER_NAME || true && /usr/bin/docker image rm $DOCKER_IMAGE_NAME || true && /usr/bin/docker load -i /ward/app/nestjs-app.tar &&
         cd /ward/app &&
