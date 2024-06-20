@@ -53,13 +53,13 @@ deploy:
   script:
     - ssh $VPS_HOST "whoami"
     - ssh -i ~/.ssh/id_rsa -vvv admin11@$VPS_IP "mkdir -p /ward/app && echo 'Directory created.'"
-    - scp -i ~/.ssh/id_rsa -vvv ~/test/testing admin11@$VPS_IP:/ward/app
+    - scp -i ~/.ssh/id_rsa -vvv nestjs-app.tar admin11@$VPS_IP:/ward/app
     # SSH into the VPS and deploy the container
     - echo "Deploying container on VPS"
     - ssh $VPS_HOST "
-        docker container stop $CONTAINER_NAME || true &&
-        docker container rm $CONTAINER_NAME || true &&
-        docker image rm $DOCKER_IMAGE_NAME || true &&
-        docker load -i /ward/app/nestjs-app.tar &&
-        docker-compose -f /ward/app/docker-compose.yml up -d
+        sudo docker container stop $CONTAINER_NAME || true &&
+        sudo docker container rm $CONTAINER_NAME || true &&
+        sudo docker image rm $DOCKER_IMAGE_NAME || true &&
+        sudo docker load -i /ward/app/nestjs-app.tar &&
+        sudo docker-compose -f /ward/app/docker-compose.yml up -d
       "
