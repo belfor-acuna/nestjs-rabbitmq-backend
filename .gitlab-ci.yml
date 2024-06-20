@@ -20,8 +20,8 @@ build_image:
   - mkdir -p ~/.ssh
   - chmod 700 ~/.ssh
   - >-
-      ssh-keygen -R $VPS_IP &&
-      ssh-keyscan $VPS_IP >> ~/.ssh/known_hosts &&
+      ssh-keygen -R $VPS_HOST &&
+      ssh-keyscan $VPS_HOST >> ~/.ssh/known_hosts &&
       chmod 644 ~/.ssh/known_hosts
   - chmod 644 ~/.ssh/known_hosts
   script:
@@ -44,8 +44,8 @@ deploy:
     - sudo apt-get update
     - sudo apt-get install -y openssh-client
     - >-
-      ssh-keygen -R $VPS_IP &&
-      ssh-keyscan $VPS_IP >> ~/.ssh/known_hosts &&
+      ssh-keygen -R $VPS_HOST &&
+      ssh-keyscan $VPS_HOST >> ~/.ssh/known_hosts &&
       chmod 644 ~/.ssh/known_hosts
     - chmod 644 ~/.ssh/known_hosts
   script:
@@ -53,7 +53,7 @@ deploy:
     - ssh $VPS_HOST "whoami"
     - ssh $VPS_HOST "mkdir -p /ward/app"
     # Copy the image to the VPS
-    - sudo scp nestjs-app.tar $VPS_IP:/ward/app/nestjs-app.tar
+    - sudo scp nestjs-app.tar $VPS_HOST:/ward/app/nestjs-app.tar
     # SSH into the VPS and deploy the container
     - ssh $VPS_HOST "
         docker container stop $CONTAINER_NAME || true &&
