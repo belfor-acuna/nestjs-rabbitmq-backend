@@ -48,8 +48,8 @@ deploy:
     - ssh -i ~/.ssh/id_rsa admin11@$VPS_IP "mkdir -p /ward/app && echo 'Directory created.'"
     - scp -i ~/.ssh/id_rsa nestjs-app.tar admin11@$VPS_IP:/ward/app
     - echo "Deploying container on VPS"
-    - sshpass -p "$VPS_PASSWORD" ssh $VPS_HOST "sudo -S docker container stop $CONTAINER_NAME || true && \
-                                                sudo -S docker container rm $CONTAINER_NAME || true && \
-                                                sudo -S docker image rm $DOCKER_IMAGE_NAME || true && \
-                                                sudo -S docker load -i /ward/app/nestjs-app.tar && \
-                                                sudo -S docker run -d --name $CONTAINER_NAME -p 3000:3000 $DOCKER_IMAGE_NAME"
+    - ssh -i ~/.ssh/id_rsa admin11@$VPS_IP "docker container stop $CONTAINER_NAME || true && \
+                                         docker container rm $CONTAINER_NAME || true && \
+                                         docker image rm $DOCKER_IMAGE_NAME || true && \
+                                         docker load -i /ward/app/nestjs-app.tar && \
+                                         docker run -d --name $CONTAINER_NAME -p 3000:3000 $DOCKER_IMAGE_NAME"
