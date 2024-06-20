@@ -51,4 +51,5 @@ deploy:
     - echo "Deploying container on VPS"
     - ssh -i ~/.ssh/id_rsa admin11@$VPS_IP "/usr/bin/docker container stop $CONTAINER_NAME || true && /usr/bin/docker container rm $CONTAINER_NAME || true && /usr/bin/docker image rm $DOCKER_IMAGE_NAME || true && /usr/bin/docker load -i /ward/app/nestjs-app.tar &&
         cd /ward/app &&
-        docker-compose up -d
+        /usr/bin/docker-compose up -d
+        "
