@@ -45,7 +45,7 @@ deploy:
     - ssh $VPS_HOST "whoami"
     - ssh $VPS_HOST "mkdir -p /ward/app"
     # Copy the image to the VPS
-    - sudo scp nestjs-app.tar $VPS_HOST:/ward/app/nestjs-app.tar
+    - sudo scp nestjs-app.tar $VPS_IP:/ward/app/nestjs-app.tar
     # SSH into the VPS and deploy the container
     - ssh $VPS_HOST "
         docker container stop $CONTAINER_NAME || true &&
