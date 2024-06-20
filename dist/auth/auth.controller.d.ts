@@ -10,4 +10,5 @@ export declare class AuthController {
     }>;
     getMe(req: any): any;
     registerWard(signupDto: CreateAuthDto): Promise<import("../user/user.entity").User>;
+    registerApplicant(signupDto: CreateAuthDto): Promise<import("../user/user.entity").User>;
 }

@@ -35,6 +35,9 @@ let AuthController = class AuthController {
     registerWard(signupDto) {
         return this.userService.signUpWard(signupDto);
     }
+    registerApplicant(signupDto) {
+        return this.userService.signUpApplicant(signupDto);
+    }
 };
 exports.AuthController = AuthController;
 __decorate([
@@ -62,6 +65,14 @@ __decorate([
     __metadata("design:paramtypes", [authDto_1.CreateAuthDto]),
     __metadata("design:returntype", void 0)
 ], AuthController.prototype, "registerWard", null);
+__decorate([
+    (0, common_1.HttpCode)(common_1.HttpStatus.OK),
+    (0, common_1.Post)('register/applicant'),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [authDto_1.CreateAuthDto]),
+    __metadata("design:returntype", void 0)
+], AuthController.prototype, "registerApplicant", null);
 exports.AuthController = AuthController = __decorate([
     (0, common_1.Controller)('auth'),
     __metadata("design:paramtypes", [auth_service_1.AuthService,

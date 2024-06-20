@@ -33,4 +33,12 @@ export class UserService {
     return this.usersRepository.save(user);
   }
 
+  async signUpApplicant(CreateAuthDto: CreateAuthDto): Promise<User> {
+    const user = new User();
+    user.email = CreateAuthDto.email;
+    user.password = CreateAuthDto.password;
+    user.roles = [ROLES.Applicant]
+    return this.usersRepository.save(user);
+  }
+
 }

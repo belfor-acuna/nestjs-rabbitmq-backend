@@ -32,4 +32,10 @@ export class AuthController {
     registerWard(@Body() signupDto:CreateAuthDto){
         return this.userService.signUpWard(signupDto);
     }
+
+    @HttpCode(HttpStatus.OK)
+    @Post('register/applicant')
+    registerApplicant(@Body() signupDto:CreateAuthDto){
+        return this.userService.signUpApplicant(signupDto);
+    }
 }

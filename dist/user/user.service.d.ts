@@ -8,4 +8,5 @@ export declare class UserService {
     findOne(id: number): Promise<User | null>;
     findOneByEmail(email: string): Promise<User | null>;
     signUpWard(CreateAuthDto: CreateAuthDto): Promise<User>;
+    signUpApplicant(CreateAuthDto: CreateAuthDto): Promise<User>;
 }

@@ -38,6 +38,13 @@ let UserService = class UserService {
         user.roles = [roles_enum_1.ROLES.Ward];
         return this.usersRepository.save(user);
     }
+    async signUpApplicant(CreateAuthDto) {
+        const user = new user_entity_1.User();
+        user.email = CreateAuthDto.email;
+        user.password = CreateAuthDto.password;
+        user.roles = [roles_enum_1.ROLES.Applicant];
+        return this.usersRepository.save(user);
+    }
 };
 exports.UserService = UserService;
 exports.UserService = UserService = __decorate([
