@@ -13,13 +13,12 @@ build_image:
     - gc
   script:
     # Remove any existing container and image
-    - sudo su
-    - docker container stop $CONTAINER_NAME || true
-    - docker container rm $CONTAINER_NAME || true
-    - docker image rm $DOCKER_IMAGE_NAME || true
+    - sudo docker container stop $CONTAINER_NAME || true
+    - sudo docker container rm $CONTAINER_NAME || true
+    - sudo docker image rm $DOCKER_IMAGE_NAME || true
     # Build the new image
-    - docker build -t $DOCKER_IMAGE_NAME .
-    - docker save -o nestjs-app.tar $DOCKER_IMAGE_NAME
+    - sudo docker build -t $DOCKER_IMAGE_NAME .
+    - sudo docker save -o nestjs-app.tar $DOCKER_IMAGE_NAME
   artifacts:
     paths:
       - nestjs-app.tar
