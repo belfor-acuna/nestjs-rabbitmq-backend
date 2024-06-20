@@ -48,6 +48,7 @@ deploy:
     - ssh $VPS_HOST "whoami"
     - ssh $VPS_HOST "mkdir -p /ward/app"
     # Copy the image to the VPS
+    - whoami
     - sudo scp -i ~/.ssh/id_rsa nestjs-app.tar admin11@200.13.4.213:/ward/app/nestjs-app.tar
     # SSH into the VPS and deploy the container
     - ssh $VPS_HOST "
