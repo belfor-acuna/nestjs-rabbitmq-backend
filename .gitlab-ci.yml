@@ -12,25 +12,19 @@ build_image:
   stage: build
   tags:
     - gc
-    
   before_script:
     - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
     - eval $(ssh-agent -s)
-    - echo $SSH_PRIVATE_KEY
     - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
     - mkdir -p ~/.ssh
     - chmod 700 ~/.ssh
-    - echo $VPS_IP
-    - >-
-        ssh-keygen -R $VPS_IP &&
-        ssh-keyscan $VPS_IP >> ~/.ssh/known_hosts &&
-        chmod 644 ~/.ssh/known_hosts
+    - ssh-keygen -R $VPS_IP || true
+    - ssh-keyscan $VPS_IP >> ~/.ssh/known_hosts
+    - chmod 644 ~/.ssh/known_hosts
   script:
-    # Remove any existing container and image
     - docker container stop $CONTAINER_NAME || true
     - docker container rm $CONTAINER_NAME || true
     - docker image rm $DOCKER_IMAGE_NAME || true
-    # Build the new image
     - docker build -t $DOCKER_IMAGE_NAME .
     - docker save -o nestjs-app.tar $DOCKER_IMAGE_NAME
   artifacts:
@@ -44,20 +38,18 @@ deploy:
   before_script:
     - sudo apt-get update
     - sudo apt-get install -y openssh-client
-    # Add VPS host key to known_hosts
     - mkdir -p ~/.ssh
     - chmod 700 ~/.ssh
-    - ssh-keygen -R $VPS_IP || true   # Remove existing entry if present
+    - ssh-keygen -R $VPS_IP || true
     - ssh-keyscan $VPS_IP >> ~/.ssh/known_hosts
     - chmod 644 ~/.ssh/known_hosts
   script:
     - ssh $VPS_HOST "whoami"
-    - ssh -i ~/.ssh/id_rsa -vvv admin11@$VPS_IP "mkdir -p /ward/app && echo 'Directory created.'"
-    - scp -i ~/.ssh/id_rsa -vvv nestjs-app.tar admin11@$VPS_IP:/ward/app
-    # SSH into the VPS and deploy the container
+    - ssh -i ~/.ssh/id_rsa admin11@$VPS_IP "mkdir -p /ward/app && echo 'Directory created.'"
+    - scp -i ~/.ssh/id_rsa nestjs-app.tar admin11@$VPS_IP:/ward/app
     - echo "Deploying container on VPS"
-    - sshpass -p "$VPS_PASSWORD" ssh $VPS_HOST "echo $VPS_PASSWORD | sudo -S docker container stop $CONTAINER_NAME || true && \
-                                                echo $VPS_PASSWORD | sudo -S docker container rm $CONTAINER_NAME || true && \
-                                                echo $VPS_PASSWORD | sudo -S docker image rm $DOCKER_IMAGE_NAME || true && \
-                                                echo $VPS_PASSWORD |  docker load -i /ward/app/nestjs-app.tar && \
-                                                 docker run -d --name $CONTAINER_NAME -p 3000:3000 $DOCKER_IMAGE_NAME"
+    - sshpass -p "$VPS_PASSWORD" ssh $VPS_HOST "sudo -S docker container stop $CONTAINER_NAME || true && \
+                                                sudo -S docker container rm $CONTAINER_NAME || true && \
+                                                sudo -S docker image rm $DOCKER_IMAGE_NAME || true && \
+                                                sudo -S docker load -i /ward/app/nestjs-app.tar && \
+                                                sudo -S docker run -d --name $CONTAINER_NAME -p 3000:3000 $DOCKER_IMAGE_NAME"
