@@ -52,9 +52,8 @@ deploy:
     - chmod 644 ~/.ssh/known_hosts
   script:
     - ssh $VPS_HOST "whoami"
-    - ssh $VPS_HOST "mkdir -p /ward/app"
-    - echo "Copying file to VPS"
-    - sudo scp -i ~/.ssh/id_rsa ~/test/testing admin11@$VPS_IP:/ward/app
+    - ssh -i ~/.ssh/id_rsa -vvv admin11@$VPS_IP "mkdir -p /ward/app && echo 'Directory created.'"
+    - scp -i ~/.ssh/id_rsa -vvv ~/test/testing admin11@$VPS_IP:/ward/app
     # SSH into the VPS and deploy the container
     - echo "Deploying container on VPS"
     - ssh $VPS_HOST "
