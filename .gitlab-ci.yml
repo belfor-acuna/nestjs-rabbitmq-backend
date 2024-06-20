@@ -30,8 +30,7 @@ deploy:
   tags:
     - gc
   before_script:
-    # Install OpenSSH client
-    - install_packages openssh-client
+    - apt-get update && apt-get install -y openssh-client
   script:
     # Ensure the destination directory exists
     - ssh $VPS_HOST "mkdir -p /ward/app"
