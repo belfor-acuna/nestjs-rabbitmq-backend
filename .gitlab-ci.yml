@@ -25,11 +25,11 @@ build_image:
 
 deploy:
   stage: deploy
-  image: alpine:latest
   tags:
     - gc
   before_script:
-    - apk add --no-cache openssh
+    - apt-get update
+    - apt-get install -y openssh-client
   script:
     # Ensure the destination directory exists
     - ssh $VPS_HOST "mkdir -p /ward/app"
