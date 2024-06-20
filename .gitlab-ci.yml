@@ -56,8 +56,8 @@ deploy:
     - scp -i ~/.ssh/id_rsa -vvv nestjs-app.tar admin11@$VPS_IP:/ward/app
     # SSH into the VPS and deploy the container
     - echo "Deploying container on VPS"
-    - sshpass -p "$VPS_PASSWORD" ssh $VPS_HOST "echo $VPS_PASSWORD | sudo -S docker container stop         $CONTAINER_NAME || true && \
+    - sshpass -p "$VPS_PASSWORD" ssh $VPS_HOST "echo $VPS_PASSWORD | sudo -S docker container stop $CONTAINER_NAME || true && \
                                                 echo $VPS_PASSWORD | sudo -S docker container rm $CONTAINER_NAME || true && \
                                                 echo $VPS_PASSWORD | sudo -S docker image rm $DOCKER_IMAGE_NAME || true && \
                                                 echo $VPS_PASSWORD | sudo -S docker load -i /ward/app/nestjs-app.tar && \
-                                                sudo -S docker run -d --name $CONTAINER_NAME -p 3000:3000 $DOCKER_IMAGE_NAME'"
+                                                sudo -S docker run -d --name $CONTAINER_NAME -p 3000:3000 $DOCKER_IMAGE_NAME"
