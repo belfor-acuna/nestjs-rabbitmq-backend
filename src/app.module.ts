@@ -16,7 +16,7 @@ import { User } from "./user/user.entity";
       imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => ({
         type: 'postgres',
-        host: 'localhost',
+        host: 'postgres',
         port: configService.get<number>('DB_PORT'),
         username: configService.get<string>('DB_USERNAME'),
         password: configService.get<string>('DB_PASSWORD'),
@@ -37,3 +37,4 @@ import { User } from "./user/user.entity";
   providers: [AppService],
 })
 export class AppModule {}
+
