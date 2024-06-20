@@ -44,18 +44,15 @@ deploy:
   before_script:
     - sudo apt-get update
     - sudo apt-get install -y openssh-client
+    # Add VPS host key to known_hosts
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+    - ssh-keygen -R $VPS_IP || true   # Remove existing entry if present
+    - ssh-keyscan $VPS_IP >> ~/.ssh/known_hosts
+    - chmod 644 ~/.ssh/known_hosts
   script:
-    # Ensure the destination directory exists
-    - whoami
     - ssh $VPS_HOST "whoami"
     - ssh $VPS_HOST "mkdir -p /ward/app"
-    # Copy the image to the VPS
-    - echo $VPS_HOST
-    - echo $SSH_PRIVATE_KEY
-    
-    - ssh-keyscan $VPS_HOST >> ~/.ssh/known_hosts
-    - chmod 644 ~/.ssh/known_hosts
-
     - echo "Copying file to VPS"
     - sudo scp -i ~/.ssh/id_rsa ~/test/testing admin11@$VPS_IP:/ward/app
     # SSH into the VPS and deploy the container
