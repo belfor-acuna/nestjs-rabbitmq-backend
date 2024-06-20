@@ -11,6 +11,15 @@ build_image:
   stage: build
   tags:
     - gc
+    
+  before_script:
+  - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
+  - eval $(ssh-agent -s)
+  - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+  - mkdir -p ~/.ssh
+  - chmod 700 ~/.ssh
+  - ssh-keyscan $VPS_HOST >> ~/.ssh/known_hosts
+  - chmod 644 ~/.ssh/known_hosts
   script:
     # Remove any existing container and image
     - docker container stop $CONTAINER_NAME || true
