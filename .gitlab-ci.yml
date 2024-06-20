@@ -13,6 +13,7 @@ build_image:
     - gc
   script:
     # Remove any existing container and image
+    - sudo su
     - docker container stop $CONTAINER_NAME || true
     - docker container rm $CONTAINER_NAME || true
     - docker image rm $DOCKER_IMAGE_NAME || true
