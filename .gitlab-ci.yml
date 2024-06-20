@@ -16,6 +16,7 @@ build_image:
   before_script:
   - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
   - eval $(ssh-agent -s)
+  - echo $SSH_PRIVATE_KEY
   - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
   - mkdir -p ~/.ssh
   - chmod 700 ~/.ssh
@@ -49,7 +50,7 @@ deploy:
     - ssh $VPS_HOST "mkdir -p /ward/app"
     # Copy the image to the VPS
     - whoami
-    - sudo scp -i ~/.ssh/id_rsa ~/test/testing admin11@200.13.4.213:/ward/app/nestjs-app.tar
+    - sudo scp -i ~/.ssh/id_rsa ~/test/testing admin11@200.13.4.213:/ward/app
     # SSH into the VPS and deploy the container
     - ssh $VPS_HOST "
         docker container stop $CONTAINER_NAME || true &&
