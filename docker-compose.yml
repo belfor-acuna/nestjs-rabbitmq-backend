@@ -2,20 +2,30 @@ version: "3.9"
 
 services:
   nestjs-app:
-    profiles:
-      - dev
     container_name: nestjs-app
     image: registry.gitlab.com/dci-project/arqsoft-dci/proyectos/1s2024/ward/ward-app/ward-backend/ward-api/app:latest
     depends_on:
       - postgres
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USERNAME: ${DB_USERNAME}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_DATABASE: ${DB_DATABASE}
     ports:
-      - "3000:3000"
+      - "3000:3000"  
 
   postgres:
     image: postgres
     environment:
-      POSTGRES_USER: bac
-      POSTGRES_PASSWORD: ZtE%&S01h8
-      POSTGRES_DB: ward
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_DATABASE}
     ports:
-      - "5432:5432"
+      - "5432:5432"  
+    volumes:
+      - postgres_data:/var/lib/postgresql/data  
+
+volumes:
+  postgres_data:
+    driver: local  
