@@ -1,9 +1,6 @@
 # Dockerfile
 
 FROM node:22-alpine3.19
-# Instala PostgreSQL
-RUN apk add --no-cache postgresql-client postgresql
-
 # Establece el directorio de trabajo dentro del contenedor
 WORKDIR /app
 
