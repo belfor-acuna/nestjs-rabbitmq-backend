@@ -1,15 +1,18 @@
 version: "3.9"
 
+networks:
+  app_network:
+
 services:
   nestjs-app:
-    profiles:
-      - dev
     container_name: nestjs-app
     image: registry.gitlab.com/dci-project/arqsoft-dci/proyectos/1s2024/ward/ward-app/ward-backend/ward-api/app:latest
-    depends_on:
-      - postgres
     ports:
       - "3000:3000"
+    networks:
+      - app_network
+    depends_on:
+      - postgres
 
   postgres:
     image: postgres
@@ -19,3 +22,9 @@ services:
       POSTGRES_DB: ${DB_DATABASE}
     ports:
       - "5432:5432"
+    networks:
+      - app_network
+
+networks:
+  app_network:
+    driver: bridge
