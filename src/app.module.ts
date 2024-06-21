@@ -16,7 +16,7 @@ import { User } from "./user/user.entity";
       imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => ({
         type: 'postgres',
-        host: 'postgres',
+        host: 'dbpostgresql',
         port: configService.get<number>('DB_PORT'),
         username: configService.get<string>('DB_USERNAME'),
         password: configService.get<string>('DB_PASSWORD'),
