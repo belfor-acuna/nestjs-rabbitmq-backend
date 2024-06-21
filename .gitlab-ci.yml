@@ -1,0 +1,35 @@
+variables:
+  BACKEND_IMAGE: registry.gitlab.com/dci-project/arqsoft-dci/proyectos/1s2024/ward/ward-app/ward-backend/ward-api/app:latest
+
+stages:
+  - build-app-dev
+  - deploy-app-dev
+
+build-backend:
+  stage: build-app-dev
+  image: docker:24.0.5
+  services:
+    - docker:24.0.5-dind
+  script:
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - docker build -t $BACKEND_IMAGE .
+    - docker push $BACKEND_IMAGE
+
+deploy-dev:
+  stage: deploy-app-dev
+  before_script:
+    - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
+    - eval $(ssh-agent -s)
+    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+    - ssh-keyscan $SERVER_IP_DEV >> ~/.ssh/known_hosts
+    - chmod 644 ~/.ssh/known_hosts
+  script:
+    - scp docker-compose.yml $SERVER_USER_DEV@$SERVER_IP_DEV:$SERVER_PATH
+    - ssh $SERVER_USER_DEV@$SERVER_IP_DEV "docker login -u \"$CI_REGISTRY_USER\" -p \"$CI_REGISTRY_PASSWORD\" $CI_REGISTRY"
+    - ssh $SERVER_USER_DEV@$SERVER_IP_DEV "cd $SERVER_PATH && docker-compose --profile dev down -v && docker system prune -f"
+    - ssh $SERVER_USER_DEV@$SERVER_IP_DEV "docker rmi \$(docker images -q | grep -v \$(docker images -q postgres)) -f || true"
+    - ssh $SERVER_USER_DEV@$SERVER_IP_DEV "docker pull \"$BACKEND_IMAGE\""
+    - ssh $SERVER_USER_DEV@$SERVER_IP_DEV "cd $SERVER_PATH && docker-compose --profile dev pull && docker-compose --profile dev up -d"
+    - ssh $SERVER_USER_DEV@$SERVER_IP_DEV "docker ps && docker logs nestjs-app"
