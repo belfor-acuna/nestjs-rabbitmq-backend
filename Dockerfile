@@ -7,11 +7,12 @@ WORKDIR /app
 # Copia los archivos de configuración de la aplicación
 COPY package*.json ./
 
-# Instala las dependencias de la aplicación
-RUN npm install
-
 # Copia el resto de los archivos de la aplicación
 COPY . .
+
+
+# Instala las dependencias de la aplicación
+RUN npm install
 
 # Exponer el puerto en el que la aplicación Nest.js se ejecutará
 EXPOSE 3000

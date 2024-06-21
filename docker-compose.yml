@@ -14,13 +14,8 @@ services:
   postgres:
     image: postgres
     environment:
-      POSTGRES_USER: ${DB_USERNAME}
-      POSTGRES_PASSWORD: ${DB_PASSWORD}
-      POSTGRES_DB: ${DB_DATABASE}
+      POSTGRES_USER: bac
+      POSTGRES_PASSWORD: ZtE%&S01h8
+      POSTGRES_DB: ward
     ports:
       - "5432:5432"
-    volumes:
-      - postgres_data:/var/lib/postgresql/data 
-
-volumes:
-  postgres_data: 
