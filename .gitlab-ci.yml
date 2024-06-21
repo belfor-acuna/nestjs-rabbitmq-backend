@@ -33,6 +33,6 @@ deploy-dev:
     - ssh $SERVER_USER_DEV@$SERVER_IP_DEV "docker-compose --profile dev down -v && docker system prune -f"
     - ssh $SERVER_USER_DEV@$SERVER_IP_DEV "docker rmi \$(docker images -q | grep -v \$(docker images -q postgres)) -f"
     - ssh $SERVER_USER_DEV@$SERVER_IP_DEV "docker pull \"$BACKEND_IMAGE\""
-    - ssh $SERVER_USER_DEV@$SERVER_IP_DEV "docker-compose --profile dev pull && docker-compose --profile dev up -d"
+    - ssh $SERVER_USER_DEV@$SERVER_IP_DEV "cd /ward/app || docker-compose --profile dev pull && docker-compose --profile dev up -d"
     - ssh $SERVER_USER_DEV@$SERVER_IP_DEV "rm -rf ~/docker-compose.yml"
 
