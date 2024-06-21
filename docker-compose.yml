@@ -14,9 +14,9 @@ services:
   postgres:
     image: postgres
     environment:
-      POSTGRES_USER: bac
-      POSTGRES_PASSWORD: ZtE%&S01h8
-      POSTGRES_DB: ward
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_DATABASE}
     ports:
       - "5432:5432"
     volumes:
