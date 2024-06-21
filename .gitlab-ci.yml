@@ -16,14 +16,9 @@ build-backend:
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
     - docker build -t $BACKEND_IMAGE ./api
     - docker push $BACKEND_IMAGE
-  only:
-    - develop
-
 
 deploy-dev:
   stage: deploy-app-dev
-  only:
-    - develop
   before_script:
     - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
     - eval $(ssh-agent -s)
