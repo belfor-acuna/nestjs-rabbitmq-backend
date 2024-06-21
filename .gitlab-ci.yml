@@ -32,4 +32,4 @@ deploy-dev:
     - ssh $SERVER_USER_DEV@$SERVER_IP_DEV "docker rmi \$(docker images -q | grep -v \$(docker images -q postgres)) -f || true"
     - ssh $SERVER_USER_DEV@$SERVER_IP_DEV "docker pull \"$BACKEND_IMAGE\""
     - ssh $SERVER_USER_DEV@$SERVER_IP_DEV "cd $SERVER_PATH && docker-compose --profile dev pull && docker-compose --profile dev up -d"
-    - ssh $SERVER_USER_DEV@$SERVER_IP_DEV "docker ps && docker logs nestjs-app && docker exec -it nestjs-app bash && psql -h postgres -U bac ward"
+    - ssh $SERVER_USER_DEV@$SERVER_IP_DEV "docker ps && docker logs nestjs-app"
