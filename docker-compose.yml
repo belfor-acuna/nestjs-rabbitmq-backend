@@ -10,9 +10,7 @@ services:
       - dbpostgresql
     ports:
       - "3000:3000"
-volumes:
-  postgres_data:
-  
+
   dbpostgresql:
     image: postgres
     environment:
@@ -21,3 +19,8 @@ volumes:
       POSTGRES_DB: ${DB_DATABASE}
     ports:
       - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data 
+
+volumes:
+  postgres_data: 
