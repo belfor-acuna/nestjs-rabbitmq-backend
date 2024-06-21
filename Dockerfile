@@ -1,21 +1,15 @@
-# Dockerfile
-
+# Usar imagen base
 FROM node:22-alpine3.19
-# Establece el directorio de trabajo dentro del contenedor
+
+# Instalar paquetes necesarios (ejemplo con PostgreSQL client)
+RUN apk update \
+    && apk add --no-cache postgresql-client
+
+# Resto de tu Dockerfile
 WORKDIR /app
-
-# Copia los archivos de configuración de la aplicación
 COPY package*.json ./
-
-# Copia el resto de los archivos de la aplicación
+RUN npm install
 COPY . .
 
-
-# Instala las dependencias de la aplicación
-RUN npm install
-
-# Exponer el puerto en el que la aplicación Nest.js se ejecutará
 EXPOSE 3000
-
-# Comando para ejecutar la aplicación
 CMD ["npm", "run", "start:prod"]
