@@ -12,12 +12,13 @@ const aid_controller_1 = require("./aid.controller");
 const aid_service_1 = require("./aid.service");
 const typeorm_1 = require("@nestjs/typeorm");
 const aid_entity_1 = require("./aid.entity");
+const user_module_1 = require("../user/user.module");
 let AidModule = class AidModule {
 };
 exports.AidModule = AidModule;
 exports.AidModule = AidModule = __decorate([
     (0, common_1.Module)({
-        imports: [typeorm_1.TypeOrmModule.forFeature([aid_entity_1.Aid])],
+        imports: [typeorm_1.TypeOrmModule.forFeature([aid_entity_1.Aid]), user_module_1.UserModule],
         controllers: [aid_controller_1.AidController],
         providers: [aid_service_1.AidService]
     })

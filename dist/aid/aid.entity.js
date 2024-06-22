@@ -12,31 +12,40 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Aid = void 0;
 const typeorm_1 = require("typeorm");
 const user_entity_1 = require("../user/user.entity");
+const status_enum_1 = require("./enum/status.enum");
 let Aid = class Aid {
 };
 exports.Aid = Aid;
 __decorate([
     (0, typeorm_1.PrimaryGeneratedColumn)(),
     __metadata("design:type", Number)
-], Aid.prototype, "id_aid", void 0);
+], Aid.prototype, "id", void 0);
 __decorate([
-    (0, typeorm_1.Column)("decimal", { precision: 10, scale: 2 }),
+    (0, typeorm_1.Column)("decimal", { precision: 10, scale: 2, nullable: true }),
     __metadata("design:type", Number)
 ], Aid.prototype, "cost", void 0);
 __decorate([
-    (0, typeorm_1.Column)(),
+    (0, typeorm_1.Column)({ nullable: true }),
     __metadata("design:type", String)
 ], Aid.prototype, "duration", void 0);
 __decorate([
     (0, typeorm_1.Column)(),
     __metadata("design:type", String)
+], Aid.prototype, "service", void 0);
+__decorate([
+    (0, typeorm_1.Column)(),
+    __metadata("design:type", String)
 ], Aid.prototype, "address", void 0);
 __decorate([
-    (0, typeorm_1.ManyToOne)(() => user_entity_1.User, (user) => user.aidAsWard, { nullable: true }),
+    (0, typeorm_1.Column)({ type: 'enum', enum: status_enum_1.AidStatus, default: status_enum_1.AidStatus.PENDING }),
+    __metadata("design:type", String)
+], Aid.prototype, "status", void 0);
+__decorate([
+    (0, typeorm_1.ManyToOne)(() => user_entity_1.User, (user) => user.aidAsWard),
     __metadata("design:type", user_entity_1.User)
 ], Aid.prototype, "ward", void 0);
 __decorate([
-    (0, typeorm_1.ManyToOne)(() => user_entity_1.User, (user) => user.aidAsApplicant, { nullable: true }),
+    (0, typeorm_1.ManyToOne)(() => user_entity_1.User, (user) => user.aidAsApplicant),
     __metadata("design:type", user_entity_1.User)
 ], Aid.prototype, "applicant", void 0);
 exports.Aid = Aid = __decorate([
