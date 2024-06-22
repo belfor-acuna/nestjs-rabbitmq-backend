@@ -27,8 +27,6 @@ let AidController = class AidController {
         return await this.aidService.createAidRequest(req.user.userId, wardId, service);
     }
     async getPendingAids(req) {
-        console.log("User id:" + req.user.userId);
-        const { user } = req.user.userId;
         const pendingAids = await this.aidService.findPendingAidsForWard(req.user.userId);
         return { success: true, pendingAids };
     }
@@ -37,6 +35,18 @@ let AidController = class AidController {
             success: false,
             error: error.message || "Failed to fetch pending aids",
         };
+    }
+    async acceptPendingAid(aidId, req) {
+        return await this.aidService.acceptAidRequest(aidId, req.user.userId);
+    }
+    async rejectPendingAid(aidId, req) {
+        return await this.aidService.rejectAidRequest(aidId, req.user.userId);
+    }
+    async finishAid(aidId, req) {
+        return await this.aidService.finishAid(aidId, req.user.userId);
+    }
+    async getAid(aidId) {
+        return await this.aidService.findAid(aidId);
     }
 };
 exports.AidController = AidController;
@@ -57,6 +67,41 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], AidController.prototype, "getPendingAids", null);
+__decorate([
+    (0, roles_decorator_1.Roles)(roles_enum_1.ROLES.Ward),
+    (0, common_1.Patch)("ward/accept/:aidId"),
+    __param(0, (0, common_1.Param)("aidId")),
+    __param(1, (0, common_1.Request)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number, Object]),
+    __metadata("design:returntype", Promise)
+], AidController.prototype, "acceptPendingAid", null);
+__decorate([
+    (0, roles_decorator_1.Roles)(roles_enum_1.ROLES.Ward),
+    (0, common_1.Patch)("ward/reject/:aidId"),
+    __param(0, (0, common_1.Param)("aidId")),
+    __param(1, (0, common_1.Request)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number, Object]),
+    __metadata("design:returntype", Promise)
+], AidController.prototype, "rejectPendingAid", null);
+__decorate([
+    (0, roles_decorator_1.Roles)(roles_enum_1.ROLES.Ward, roles_enum_1.ROLES.Applicant),
+    (0, common_1.Patch)(":aidId"),
+    __param(0, (0, common_1.Param)("aidId")),
+    __param(1, (0, common_1.Request)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number, Object]),
+    __metadata("design:returntype", Promise)
+], AidController.prototype, "finishAid", null);
+__decorate([
+    (0, roles_decorator_1.Roles)(roles_enum_1.ROLES.Ward, roles_enum_1.ROLES.Applicant),
+    (0, common_1.Get)(':aidId'),
+    __param(0, (0, common_1.Param)('aidId')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number]),
+    __metadata("design:returntype", Promise)
+], AidController.prototype, "getAid", null);
 exports.AidController = AidController = __decorate([
     (0, common_1.Controller)("aid"),
     __metadata("design:paramtypes", [aid_service_1.AidService])

@@ -7,4 +7,8 @@ export declare class AidService {
     constructor(userService: UserService, aidsRepository: Repository<Aid>);
     createAidRequest(applicantId: number, wardId: number, service: string): Promise<Aid>;
     findPendingAidsForWard(wardId: number): Promise<Aid[]>;
+    acceptAidRequest(aidId: number, wardId: number): Promise<Aid>;
+    rejectAidRequest(aidId: number, wardId: number): Promise<Aid>;
+    finishAid(aidId: number, userId: number): Promise<Aid>;
+    findAid(aidId: number): Promise<Aid>;
 }

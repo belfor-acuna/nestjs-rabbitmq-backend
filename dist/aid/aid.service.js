@@ -39,7 +39,6 @@ let AidService = class AidService {
         return this.aidsRepository.save(aidRequest);
     }
     async findPendingAidsForWard(wardId) {
-        console.log(wardId);
         return this.aidsRepository.find({
             where: {
                 ward: { id: wardId },
@@ -47,6 +46,48 @@ let AidService = class AidService {
             },
             relations: ["ward", "applicant"],
         });
+    }
+    async acceptAidRequest(aidId, wardId) {
+        const ward = await this.userService.findOne(wardId);
+        const aid = await this.findAid(aidId);
+        if (aid.ward.id !== ward.id) {
+            throw new Error(`Aid with id ${aidId} does not belong to ward with id ${wardId}`);
+        }
+        aid.status = status_enum_1.AidStatus.ACCEPTED;
+        return this.aidsRepository.save(aid);
+    }
+    async rejectAidRequest(aidId, wardId) {
+        const ward = await this.userService.findOne(wardId);
+        const aid = await this.findAid(aidId);
+        if (aid.ward.id !== ward.id) {
+            throw new Error(`Aid with id ${aidId} does not belong to ward with id ${wardId}`);
+        }
+        aid.status = status_enum_1.AidStatus.REJECTED;
+        return this.aidsRepository.save(aid);
+    }
+    async finishAid(aidId, userId) {
+        const user = await this.userService.findOne(userId);
+        const aid = await this.findAid(aidId);
+        if (aid.ward.id === user.id || aid.applicant.id === user.id) {
+            aid.status = status_enum_1.AidStatus.COMPLETED;
+            return this.aidsRepository.save(aid);
+        }
+        else {
+            throw new Error(`Aid with id ${aidId} does not belong to user with id ${userId}`);
+        }
+    }
+    async findAid(aidId) {
+        const aid = await this.aidsRepository
+            .createQueryBuilder("aid")
+            .leftJoinAndSelect("aid.ward", "ward")
+            .leftJoinAndSelect("aid.applicant", "applicant")
+            .where("aid.id = :id", { id: aidId })
+            .getOne();
+        console.log("Aid encontrado: " + JSON.stringify(aid, null, 2));
+        if (!aid) {
+            throw new Error(`Aid with id ${aidId} not found :c`);
+        }
+        return aid;
     }
 };
 exports.AidService = AidService;
