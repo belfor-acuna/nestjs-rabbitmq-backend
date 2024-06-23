@@ -40,6 +40,8 @@ let UserService = class UserService {
         user.email = CreateAuthDto.email;
         user.password = CreateAuthDto.password;
         user.roles = [roles_enum_1.ROLES.Ward];
+        user.firstName = CreateAuthDto.firstName;
+        user.lastName = CreateAuthDto.lastName;
         return this.usersRepository.save(user);
     }
     async signUpApplicant(CreateAuthDto) {
@@ -47,6 +49,8 @@ let UserService = class UserService {
         user.email = CreateAuthDto.email;
         user.password = CreateAuthDto.password;
         user.roles = [roles_enum_1.ROLES.Applicant];
+        user.firstName = CreateAuthDto.firstName;
+        user.lastName = CreateAuthDto.lastName;
         return this.usersRepository.save(user);
     }
 };

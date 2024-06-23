@@ -2,10 +2,8 @@ import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { User } from "./user.entity";
 import { Repository } from "typeorm";
-import { CreateAuthDto } from "src/auth/dto/authDto";
+import { RegisterAuthDto } from "src/auth/dto/authDto";
 import { ROLES } from "./roles/roles.enum";
-import { UserDto } from "./dto/user.dto";
-import { plainToClass } from "class-transformer";
 
 @Injectable()
 export class UserService {
@@ -30,19 +28,23 @@ export class UserService {
     return this.usersRepository.findOneBy({ email });
   }
 
-  async signUpWard(CreateAuthDto: CreateAuthDto): Promise<User> {
+  async signUpWard(CreateAuthDto: RegisterAuthDto): Promise<User> {
     const user = new User();
     user.email = CreateAuthDto.email;
     user.password = CreateAuthDto.password;
     user.roles = [ROLES.Ward];
+    user.firstName = CreateAuthDto.firstName;
+    user.lastName = CreateAuthDto.lastName;
     return this.usersRepository.save(user);
   }
 
-  async signUpApplicant(CreateAuthDto: CreateAuthDto): Promise<User> {
+  async signUpApplicant(CreateAuthDto: RegisterAuthDto): Promise<User> {
     const user = new User();
     user.email = CreateAuthDto.email;
     user.password = CreateAuthDto.password;
     user.roles = [ROLES.Applicant];
+    user.firstName = CreateAuthDto.firstName;
+    user.lastName = CreateAuthDto.lastName;
     return this.usersRepository.save(user);
   }
 }

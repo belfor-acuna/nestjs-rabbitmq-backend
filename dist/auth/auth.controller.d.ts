@@ -1,14 +1,14 @@
-import { AuthService } from "./auth.service";
-import { CreateAuthDto } from "./dto/authDto";
-import { UserService } from "src/user/user.service";
+import { UserService } from 'src/user/user.service';
+import { AuthService } from './auth.service';
+import { RegisterAuthDto, LoginAuthDto } from './dto/authDto';
 export declare class AuthController {
     private authService;
     private userService;
     constructor(authService: AuthService, userService: UserService);
-    signIn(signInDto: CreateAuthDto): Promise<{
+    signIn(signInDto: LoginAuthDto): Promise<{
         access_token: string;
     }>;
-    getMe(req: any): any;
-    registerWard(signupDto: CreateAuthDto): Promise<import("../user/user.entity").User>;
-    registerApplicant(signupDto: CreateAuthDto): Promise<import("../user/user.entity").User>;
+    getMe(req: any): Promise<import("../user/user.entity").User>;
+    registerWard(signupDto: RegisterAuthDto): Promise<import("../user/user.entity").User>;
+    registerApplicant(signupDto: RegisterAuthDto): Promise<import("../user/user.entity").User>;
 }

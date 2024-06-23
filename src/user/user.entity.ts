@@ -7,10 +7,10 @@ export class User {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ nullable: true })
+  @Column({ nullable: false })
   firstName: string;
 
-  @Column({ nullable: true })
+  @Column({ nullable: false })
   lastName: string;
 
   @Column({nullable:true})
@@ -32,7 +32,7 @@ export class User {
   @Column({nullable:true})
   pricePerHour:number 
 
-  @Column()
+  @Column({unique:true})
   email: string;
 
   @Column('simple-array')
