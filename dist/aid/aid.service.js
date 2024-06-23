@@ -44,7 +44,6 @@ let AidService = class AidService {
                 ward: { id: wardId },
                 status: status_enum_1.AidStatus.PENDING,
             },
-            relations: ["ward", "applicant"],
         });
     }
     async acceptAidRequest(aidId, wardId) {

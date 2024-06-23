@@ -39,7 +39,6 @@ export class AidService {
         ward: { id: wardId },
         status: AidStatus.PENDING,
       },
-      relations: ["ward", "applicant"],
     });
   }
 
