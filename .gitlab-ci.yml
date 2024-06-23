@@ -14,6 +14,8 @@ build-backend:
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
     - docker build -t $BACKEND_IMAGE .
     - docker push $BACKEND_IMAGE
+  only:
+    - develop
 
 deploy-dev:
   stage: deploy-app-dev
@@ -33,3 +35,5 @@ deploy-dev:
     - ssh $SERVER_USER_DEV@$SERVER_IP_DEV "docker pull \"$BACKEND_IMAGE\""
     - ssh $SERVER_USER_DEV@$SERVER_IP_DEV "cd $SERVER_PATH && docker-compose --profile dev pull && docker-compose --profile dev up -d"
     - ssh $SERVER_USER_DEV@$SERVER_IP_DEV "docker ps && docker logs nestjs-app"
+  only:
+    - develop
