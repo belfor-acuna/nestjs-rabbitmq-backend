@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.User = void 0;
 const typeorm_1 = require("typeorm");
 const aid_entity_1 = require("../aid/aid.entity");
+const service_entity_1 = require("../service/service.entity");
 let User = class User {
 };
 exports.User = User;
@@ -60,7 +61,8 @@ __decorate([
     __metadata("design:type", Array)
 ], User.prototype, "roles", void 0);
 __decorate([
-    (0, typeorm_1.Column)('simple-array', { nullable: true }),
+    (0, typeorm_1.ManyToMany)(() => service_entity_1.Service),
+    (0, typeorm_1.JoinTable)(),
     __metadata("design:type", Array)
 ], User.prototype, "services", void 0);
 __decorate([

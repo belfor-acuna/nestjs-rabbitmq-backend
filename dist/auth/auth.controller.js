@@ -50,7 +50,7 @@ __decorate([
 ], AuthController.prototype, "signIn", null);
 __decorate([
     (0, roles_decorator_1.Roles)(roles_enum_1.ROLES.Applicant, roles_enum_1.ROLES.Ward),
-    (0, common_1.Get)("me"),
+    (0, common_1.Get)('me'),
     __param(0, (0, common_1.Request)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
@@ -59,7 +59,7 @@ __decorate([
 __decorate([
     (0, public_auth_decorator_1.Public)(),
     (0, common_1.HttpCode)(common_1.HttpStatus.OK),
-    (0, common_1.Post)("register/ward"),
+    (0, common_1.Post)('register/ward'),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [authDto_1.RegisterAuthDto]),
@@ -68,7 +68,7 @@ __decorate([
 __decorate([
     (0, public_auth_decorator_1.Public)(),
     (0, common_1.HttpCode)(common_1.HttpStatus.OK),
-    (0, common_1.Post)("register/applicant"),
+    (0, common_1.Post)('register/applicant'),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [authDto_1.RegisterAuthDto]),

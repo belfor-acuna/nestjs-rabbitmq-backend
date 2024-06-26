@@ -1,6 +1,7 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany, ManyToMany, JoinTable } from 'typeorm';
 import { Aid } from 'src/aid/aid.entity';
 import { ROLES } from './roles/roles.enum';
+import { Service } from 'src/service/service.entity';
 
 @Entity()
 export class User {
@@ -38,8 +39,9 @@ export class User {
   @Column('simple-array')
   roles: ROLES[];
 
-  @Column('simple-array', { nullable: true })
-  services: string[];
+  @ManyToMany(() => Service)
+  @JoinTable()
+  services: Service[];
 
   @OneToMany(() => Aid, (aid) => aid.ward)
   aidAsWard: Aid[];

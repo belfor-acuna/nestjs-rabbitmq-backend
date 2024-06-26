@@ -17,6 +17,8 @@ const aid_module_1 = require("./aid/aid.module");
 const aid_entity_1 = require("./aid/aid.entity");
 const user_module_1 = require("./user/user.module");
 const user_entity_1 = require("./user/user.entity");
+const service_entity_1 = require("./service/service.entity");
+const service_module_1 = require("./service/service.module");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -36,7 +38,7 @@ exports.AppModule = AppModule = __decorate([
                     username: configService.get('DB_USERNAME'),
                     password: configService.get('DB_PASSWORD'),
                     database: configService.get('DB_DATABASE'),
-                    entities: [aid_entity_1.Aid, user_entity_1.User],
+                    entities: [aid_entity_1.Aid, user_entity_1.User, service_entity_1.Service],
                     synchronize: true,
                 }),
                 inject: [config_1.ConfigService],
@@ -44,6 +46,7 @@ exports.AppModule = AppModule = __decorate([
             auth_module_1.AuthModule,
             aid_module_1.AidModule,
             user_module_1.UserModule,
+            service_module_1.ServiceModule
         ],
         controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService],

@@ -8,6 +8,8 @@ import { AidModule } from './aid/aid.module';
 import { Aid } from "./aid/aid.entity";
 import { UserModule } from './user/user.module';
 import { User } from "./user/user.entity";
+import { Service } from "./service/service.entity";
+import { ServiceModule } from "./service/service.module";
 
 @Module({
   imports: [
@@ -24,7 +26,7 @@ import { User } from "./user/user.entity";
         username: configService.get<string>('DB_USERNAME'),
         password: configService.get<string>('DB_PASSWORD'),
         database: configService.get<string>('DB_DATABASE'),
-        entities: [Aid, User],
+        entities: [Aid, User, Service],
         synchronize: true,
       }),
       inject: [ConfigService],
@@ -32,6 +34,7 @@ import { User } from "./user/user.entity";
     AuthModule,
     AidModule,
     UserModule,
+    ServiceModule
   ],
   controllers: [AppController],
   providers: [AppService],
