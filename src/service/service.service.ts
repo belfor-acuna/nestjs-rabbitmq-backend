@@ -41,7 +41,6 @@ export class ServiceService {
 
   async addServiceToUser(userId: number, serviceId: number): Promise<User> {
     const user = await this.usersService.findOne(userId);
-    console.log(`User: ${user.firstName}, services: ${user.services}, id: ${user.id}, incoming id: ${userId}`)
     if (!user.services.some((sv) => sv.id === serviceId)) {
       const service = await this.serviceRepository.findOneBy({ id: serviceId });
       user.services.push(service);
