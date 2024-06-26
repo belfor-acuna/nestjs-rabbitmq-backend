@@ -1,15 +1,17 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { User } from "./user.entity";
-import { Repository } from "typeorm";
 import { RegisterAuthDto } from "src/auth/dto/authDto";
 import { ROLES } from "./roles/roles.enum";
+import { SecurityService } from "src/security/security.service";
+import { Repository } from "typeorm";
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectRepository(User)
-    private usersRepository: Repository<User>
+    private usersRepository: Repository<User>,
+    private securityService: SecurityService
   ) {}
 
   findAll(): Promise<User[]> {
@@ -34,7 +36,11 @@ export class UserService {
   async signUpWard(CreateAuthDto: RegisterAuthDto): Promise<User> {
     const user = new User();
     user.email = CreateAuthDto.email;
-    user.password = CreateAuthDto.password;
+    user.salt = await this.securityService.generateSalt();
+    user.hash = await this.securityService.generateHash(
+      CreateAuthDto.password,
+      user.salt
+    );
     user.roles = [ROLES.Ward];
     user.firstName = CreateAuthDto.firstName;
     user.lastName = CreateAuthDto.lastName;
@@ -45,7 +51,11 @@ export class UserService {
   async signUpApplicant(CreateAuthDto: RegisterAuthDto): Promise<User> {
     const user = new User();
     user.email = CreateAuthDto.email;
-    user.password = CreateAuthDto.password;
+    user.salt = await this.securityService.generateSalt();
+    user.hash = await this.securityService.generateHash(
+      CreateAuthDto.password,
+      user.salt
+    );
     user.roles = [ROLES.Applicant];
     user.firstName = CreateAuthDto.firstName;
     user.lastName = CreateAuthDto.lastName;

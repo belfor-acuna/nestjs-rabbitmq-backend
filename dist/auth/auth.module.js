@@ -16,18 +16,20 @@ const config_1 = require("@nestjs/config");
 const roles_guard_1 = require("../user/roles/roles.guard");
 const auth_guard_1 = require("./guards/auth.guard");
 const core_1 = require("@nestjs/core");
+const security_module_1 = require("../security/security.module");
 let AuthModule = class AuthModule {
 };
 exports.AuthModule = AuthModule;
 exports.AuthModule = AuthModule = __decorate([
     (0, common_1.Module)({
         imports: [
+            security_module_1.SecurityModule,
             user_module_1.UserModule,
             jwt_1.JwtModule.registerAsync({
                 imports: [config_1.ConfigModule],
                 useFactory: async (configService) => ({
-                    secret: configService.get('JWT_SECRET'),
-                    signOptions: { expiresIn: '15m' },
+                    secret: configService.get("JWT_SECRET"),
+                    signOptions: { expiresIn: "15m" },
                 }),
                 inject: [config_1.ConfigService],
             }),

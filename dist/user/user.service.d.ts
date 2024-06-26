@@ -1,9 +1,11 @@
 import { User } from "./user.entity";
-import { Repository } from "typeorm";
 import { RegisterAuthDto } from "src/auth/dto/authDto";
+import { SecurityService } from "src/security/security.service";
+import { Repository } from "typeorm";
 export declare class UserService {
     private usersRepository;
-    constructor(usersRepository: Repository<User>);
+    private securityService;
+    constructor(usersRepository: Repository<User>, securityService: SecurityService);
     findAll(): Promise<User[]>;
     findOne(id: number): Promise<User>;
     findOneByEmail(email: string): Promise<User | null>;

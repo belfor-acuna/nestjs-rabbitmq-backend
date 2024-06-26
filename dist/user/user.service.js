@@ -16,11 +16,13 @@ exports.UserService = void 0;
 const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
 const user_entity_1 = require("./user.entity");
-const typeorm_2 = require("typeorm");
 const roles_enum_1 = require("./roles/roles.enum");
+const security_service_1 = require("../security/security.service");
+const typeorm_2 = require("typeorm");
 let UserService = class UserService {
-    constructor(usersRepository) {
+    constructor(usersRepository, securityService) {
         this.usersRepository = usersRepository;
+        this.securityService = securityService;
     }
     findAll() {
         return this.usersRepository.find();
@@ -41,7 +43,8 @@ let UserService = class UserService {
     async signUpWard(CreateAuthDto) {
         const user = new user_entity_1.User();
         user.email = CreateAuthDto.email;
-        user.password = CreateAuthDto.password;
+        user.salt = await this.securityService.generateSalt();
+        user.hash = await this.securityService.generateHash(CreateAuthDto.password, user.salt);
         user.roles = [roles_enum_1.ROLES.Ward];
         user.firstName = CreateAuthDto.firstName;
         user.lastName = CreateAuthDto.lastName;
@@ -51,7 +54,8 @@ let UserService = class UserService {
     async signUpApplicant(CreateAuthDto) {
         const user = new user_entity_1.User();
         user.email = CreateAuthDto.email;
-        user.password = CreateAuthDto.password;
+        user.salt = await this.securityService.generateSalt();
+        user.hash = await this.securityService.generateHash(CreateAuthDto.password, user.salt);
         user.roles = [roles_enum_1.ROLES.Applicant];
         user.firstName = CreateAuthDto.firstName;
         user.lastName = CreateAuthDto.lastName;
@@ -66,6 +70,7 @@ exports.UserService = UserService;
 exports.UserService = UserService = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, typeorm_1.InjectRepository)(user_entity_1.User)),
-    __metadata("design:paramtypes", [typeorm_2.Repository])
+    __metadata("design:paramtypes", [typeorm_2.Repository,
+        security_service_1.SecurityService])
 ], UserService);
 //# sourceMappingURL=user.service.js.map

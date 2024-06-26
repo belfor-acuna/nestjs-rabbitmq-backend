@@ -10,6 +10,7 @@ import { UserModule } from './user/user.module';
 import { User } from "./user/user.entity";
 import { Service } from "./service/service.entity";
 import { ServiceModule } from "./service/service.module";
+import { SecurityModule } from './security/security.module';
 
 @Module({
   imports: [
@@ -34,7 +35,8 @@ import { ServiceModule } from "./service/service.module";
     AuthModule,
     AidModule,
     UserModule,
-    ServiceModule
+    ServiceModule,
+    SecurityModule
   ],
   controllers: [AppController],
   providers: [AppService],

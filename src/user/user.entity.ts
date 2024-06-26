@@ -18,7 +18,10 @@ export class User {
   description: string
 
   @Column()
-  password: string;
+  salt: string;
+
+  @Column()
+  hash:string;
 
   @Column({ nullable: true })
   age: number;

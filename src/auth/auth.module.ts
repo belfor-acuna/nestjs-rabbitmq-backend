@@ -1,21 +1,23 @@
-import { Module } from '@nestjs/common';
-import { AuthController } from './auth.controller';
-import { AuthService } from './auth.service';
-import { UserModule } from 'src/user/user.module';
-import { JwtModule } from '@nestjs/jwt';
-import { ConfigModule, ConfigService } from '@nestjs/config';
-import { RolesGuard } from 'src/user/roles/roles.guard';
-import { AuthGuard } from './guards/auth.guard';
-import { APP_GUARD } from '@nestjs/core';
+import { Module } from "@nestjs/common";
+import { AuthController } from "./auth.controller";
+import { AuthService } from "./auth.service";
+import { UserModule } from "src/user/user.module";
+import { JwtModule } from "@nestjs/jwt";
+import { ConfigModule, ConfigService } from "@nestjs/config";
+import { RolesGuard } from "src/user/roles/roles.guard";
+import { AuthGuard } from "./guards/auth.guard";
+import { APP_GUARD } from "@nestjs/core";
+import { SecurityModule } from "src/security/security.module";
 
 @Module({
   imports: [
+    SecurityModule,
     UserModule,
     JwtModule.registerAsync({
       imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => ({
-        secret: configService.get<string>('JWT_SECRET'),
-        signOptions: { expiresIn: '15m' },
+        secret: configService.get<string>("JWT_SECRET"),
+        signOptions: { expiresIn: "15m" },
       }),
       inject: [ConfigService],
     }),
@@ -30,6 +32,6 @@ import { APP_GUARD } from '@nestjs/core';
       useClass: AuthGuard,
     },
   ],
-  exports: [AuthService], // Export AuthService if needed
+  exports: [AuthService],
 })
 export class AuthModule {}

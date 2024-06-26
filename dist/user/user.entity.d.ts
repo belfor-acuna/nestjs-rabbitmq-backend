@@ -6,7 +6,8 @@ export declare class User {
     firstName: string;
     lastName: string;
     description: string;
-    password: string;
+    salt: string;
+    hash: string;
     age: number;
     address: string;
     phoneNumber: string;
