@@ -35,6 +35,7 @@ export class UserService {
     user.email = CreateAuthDto.email;
     user.password = CreateAuthDto.password;
     user.roles = [ROLES.Ward];
+    user.services = [];
     return this.usersRepository.save(user);
   }
 
@@ -43,6 +44,11 @@ export class UserService {
     user.email = CreateAuthDto.email;
     user.password = CreateAuthDto.password;
     user.roles = [ROLES.Applicant];
+    user.services = [];
     return this.usersRepository.save(user);
+  }
+
+  async saveUser(User: User): Promise<User>{
+    return this.usersRepository.save(User);
   }
 }

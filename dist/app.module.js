@@ -17,31 +17,32 @@ const aid_module_1 = require("./aid/aid.module");
 const aid_entity_1 = require("./aid/aid.entity");
 const user_module_1 = require("./user/user.module");
 const user_entity_1 = require("./user/user.entity");
+const service_entity_1 = require("./service/service.entity");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
 exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
         imports: [
-            auth_module_1.AuthModule,
-            typeorm_1.TypeOrmModule.forRootAsync({
-                imports: [config_1.ConfigModule],
-                useFactory: async (configService) => ({
-                    type: 'postgres',
-                    host: 'postgres',
-                    port: configService.get('DB_PORT'),
-                    username: configService.get('DB_USERNAME'),
-                    password: configService.get('DB_PASSWORD'),
-                    database: configService.get('DB_DATABASE'),
-                    entities: [aid_entity_1.Aid, user_entity_1.User],
-                    synchronize: true,
-                }),
-                inject: [config_1.ConfigService],
-            }),
             config_1.ConfigModule.forRoot({
                 isGlobal: true,
                 envFilePath: '.env',
             }),
+            typeorm_1.TypeOrmModule.forRootAsync({
+                imports: [config_1.ConfigModule],
+                useFactory: async (configService) => ({
+                    type: 'postgres',
+                    host: configService.get('DB_HOST'),
+                    port: configService.get('DB_PORT'),
+                    username: configService.get('DB_USERNAME'),
+                    password: configService.get('DB_PASSWORD'),
+                    database: configService.get('DB_DATABASE'),
+                    entities: [aid_entity_1.Aid, user_entity_1.User, service_entity_1.Service],
+                    synchronize: true,
+                }),
+                inject: [config_1.ConfigService],
+            }),
+            auth_module_1.AuthModule,
             aid_module_1.AidModule,
             user_module_1.UserModule,
         ],

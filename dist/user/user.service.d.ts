@@ -9,4 +9,5 @@ export declare class UserService {
     findOneByEmail(email: string): Promise<User | null>;
     signUpWard(CreateAuthDto: CreateAuthDto): Promise<User>;
     signUpApplicant(CreateAuthDto: CreateAuthDto): Promise<User>;
+    saveUser(User: User): Promise<User>;
 }

@@ -1,8 +1,8 @@
-import { Controller, Get, Param, UseGuards } from "@nestjs/common";
+import { Controller, Get, Param } from "@nestjs/common";
 import { ROLES } from "./roles/roles.enum";
 import { Roles } from "./roles/roles.decorator";
 import { UserService } from "./user.service";
-import { UserDto } from "./dto/user.dto";
+import { User } from "./user.entity";
 
 @Controller("user")
 export class UserController {
@@ -10,7 +10,7 @@ export class UserController {
 
   @Roles(ROLES.Applicant, ROLES.Ward)
   @Get("/one/:id")
-  async findUser(@Param("id") id: number): Promise<UserDto> {
+  async findUser(@Param("id") id: number): Promise<User> {
     return this.userService.findOne(id);
   }
 

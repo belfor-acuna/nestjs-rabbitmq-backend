@@ -1,5 +1,6 @@
 import { Aid } from 'src/aid/aid.entity';
 import { ROLES } from './roles/roles.enum';
+import { Service } from 'src/service/service.entity';
 export declare class User {
     id: number;
     firstName: string;
@@ -12,7 +13,7 @@ export declare class User {
     pricePerHour: number;
     email: string;
     roles: ROLES[];
-    services: string[];
+    services: Service[];
     aidAsWard: Aid[];
     aidAsApplicant: Aid[];
 }

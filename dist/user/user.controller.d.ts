@@ -1,8 +1,8 @@
 import { UserService } from "./user.service";
-import { UserDto } from "./dto/user.dto";
+import { User } from "./user.entity";
 export declare class UserController {
     private userService;
     constructor(userService: UserService);
-    findUser(id: number): Promise<UserDto>;
-    getAll(): Promise<import("./user.entity").User[]>;
+    findUser(id: number): Promise<User>;
+    getAll(): Promise<User[]>;
 }
