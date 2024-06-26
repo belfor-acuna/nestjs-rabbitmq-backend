@@ -7,7 +7,7 @@ export declare class UserService {
     findAll(): Promise<User[]>;
     findOne(id: number): Promise<User>;
     findOneByEmail(email: string): Promise<User | null>;
-    signUpWard(CreateAuthDto: CreateAuthDto): Promise<User>;
-    signUpApplicant(CreateAuthDto: CreateAuthDto): Promise<User>;
+    signUpWard(CreateAuthDto: RegisterAuthDto): Promise<User>;
+    signUpApplicant(CreateAuthDto: RegisterAuthDto): Promise<User>;
     saveUser(User: User): Promise<User>;
 }

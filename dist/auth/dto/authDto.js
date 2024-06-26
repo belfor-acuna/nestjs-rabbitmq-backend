@@ -20,6 +20,7 @@ __decorate([
 ], RegisterAuthDto.prototype, "email", void 0);
 __decorate([
     (0, class_validator_1.IsNotEmpty)(),
+    (0, class_validator_1.IsStrongPassword)(),
     __metadata("design:type", String)
 ], RegisterAuthDto.prototype, "password", void 0);
 __decorate([

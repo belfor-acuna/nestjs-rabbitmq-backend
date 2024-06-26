@@ -17,9 +17,12 @@ export class UserService {
   }
 
   async findOne(id: number): Promise<User> {
-    const user = await this.usersRepository.findOneBy({id})
-    if (!user){
-      throw new Error(`User with id ${id} not found :c`)
+    const user = await this.usersRepository.findOne({
+      where: { id },
+      relations: ["services"],
+    });
+    if (!user) {
+      throw new Error(`User with id ${id} not found :c`);
     }
     return user;
   }
@@ -50,7 +53,7 @@ export class UserService {
     return this.usersRepository.save(user);
   }
 
-  async saveUser(User: User): Promise<User>{
+  async saveUser(User: User): Promise<User> {
     return this.usersRepository.save(User);
   }
 }
