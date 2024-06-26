@@ -9,6 +9,7 @@ import { Aid } from "./aid/aid.entity";
 import { UserModule } from './user/user.module';
 import { User } from "./user/user.entity";
 import { Service } from "./service/service.entity";
+import { ServiceModule } from "./service/service.module";
 
 @Module({
   imports: [
@@ -33,6 +34,7 @@ import { Service } from "./service/service.entity";
     AuthModule,
     AidModule,
     UserModule,
+    ServiceModule
   ],
   controllers: [AppController],
   providers: [AppService],
