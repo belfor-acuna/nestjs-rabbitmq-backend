@@ -3,7 +3,7 @@ version: "3.9"
 services:
   nestjs-app:
     container_name: nestjs-app
-    image: registry.gitlab.com/dci-project/arqsoft-dci/proyectos/1s2024/ward/ward-app/ward-backend/ward-api/app:latest
+    image: registry.gitlab.com/dci-project/arqsoft-dci/proyectos/1s2024/ward/ward-app/ward-backend-api:latest 
     depends_on:
       - postgres
     environment:

@@ -1,6 +1,5 @@
 variables:
-  BACKEND_IMAGE: registry.gitlab.com/dci-project/arqsoft-dci/proyectos/1s2024/ward/ward-app/ward-backend/ward-api/app:latest
-
+  BACKEND_IMAGE: registry.gitlab.com/dci-project/arqsoft-dci/proyectos/1s2024/ward/ward-app/ward-backend-api:latest
 stages:
   - build-app-dev
   - deploy-app-dev
