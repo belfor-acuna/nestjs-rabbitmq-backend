@@ -42,12 +42,26 @@ let AidService = class AidService {
         return await this.rabbitMqService.placeAidRequest(aidRequest);
     }
     async findPendingAidsForWard(wardId) {
-        return this.aidsRepository.find({
+        const aids = await this.aidsRepository.find({
             where: {
                 ward: { id: wardId },
                 status: status_enum_1.AidStatus.PENDING,
             },
+            relations: ["ward", "applicant", "applicant.services"],
         });
+        const pendingAidsDTO = aids.map((aid) => ({
+            id: aid.id,
+            userId: aid.applicant.id,
+            firstName: aid.applicant.firstName,
+            fullName: `${aid.applicant.firstName} ${aid.applicant.lastName}`,
+            address: aid.address,
+            latitude: -38.74742,
+            longitude: -72.61775,
+            description: aid.applicant.description,
+            status: status_enum_1.AidStatus.PENDING,
+            servicesRequested: aid.applicant.services.map((service) => service.tag),
+        }));
+        return pendingAidsDTO;
     }
     async acceptAidRequest(aidId, wardId) {
         const ward = await this.userService.findOne(wardId);

@@ -6,6 +6,7 @@ import { Aid } from "./aid.entity";
 import { InjectRepository } from "@nestjs/typeorm";
 import { AidStatus } from "./enum/status.enum";
 import { RabbitmqService } from "src/rabbitmq/rabbitmq.service";
+import { RequestDTO } from "./dto/aidrequest.dto";
 
 @Injectable()
 export class AidService {
@@ -15,11 +16,7 @@ export class AidService {
     @InjectRepository(Aid) private aidsRepository: Repository<Aid>
   ) {}
 
-  async createAidRequest(
-    applicantId: number,
-    wardId: number,
-    service: string
-  ){
+  async createAidRequest(applicantId: number, wardId: number, service: string) {
     const ward = await this.userService.findOne(wardId);
     const applicant = await this.userService.findOne(applicantId);
     if (!ward) {
@@ -32,16 +29,32 @@ export class AidService {
     aidRequest.address = applicant.address || "Default Address";
     aidRequest.service = service;
     aidRequest.status = AidStatus.PENDING;
-    this.aidsRepository.save(aidRequest)
+    this.aidsRepository.save(aidRequest);
     return await this.rabbitMqService.placeAidRequest(aidRequest);
   }
-  async findPendingAidsForWard(wardId: number): Promise<Aid[]> {
-    return this.aidsRepository.find({
+  async findPendingAidsForWard(wardId: number): Promise<RequestDTO[]> {
+    const aids = await this.aidsRepository.find({
       where: {
         ward: { id: wardId },
         status: AidStatus.PENDING,
       },
+      relations: ["ward", "applicant", "applicant.services"],
     });
+
+    const pendingAidsDTO: RequestDTO[] = aids.map((aid) => ({
+      id: aid.id,
+      userId: aid.applicant.id,
+      firstName: aid.applicant.firstName,
+      fullName: `${aid.applicant.firstName} ${aid.applicant.lastName}`,
+      address: aid.address,
+      latitude: -38.74742,
+      longitude: -72.61775,
+      description: aid.applicant.description,
+      status: AidStatus.PENDING,
+      servicesRequested: aid.applicant.services.map((service) => service.tag),
+    }));
+
+    return pendingAidsDTO;
   }
 
   async acceptAidRequest(aidId: number, wardId: number): Promise<Aid> {
@@ -68,14 +81,16 @@ export class AidService {
     return this.aidsRepository.save(aid);
   }
 
-  async finishAid(aidId:number,userId: number): Promise<Aid>{
+  async finishAid(aidId: number, userId: number): Promise<Aid> {
     const user = await this.userService.findOne(userId);
     const aid = await this.findAid(aidId);
-    if (aid.ward.id === user.id || aid.applicant.id === user.id){
-      aid.status = AidStatus.COMPLETED
+    if (aid.ward.id === user.id || aid.applicant.id === user.id) {
+      aid.status = AidStatus.COMPLETED;
       return this.aidsRepository.save(aid);
-    }else{
-      throw new Error (`Aid with id ${aidId} does not belong to user with id ${userId}`)
+    } else {
+      throw new Error(
+        `Aid with id ${aidId} does not belong to user with id ${userId}`
+      );
     }
   }
 

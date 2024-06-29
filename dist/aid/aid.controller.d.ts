@@ -8,7 +8,7 @@ export declare class AidController {
     }>;
     getPendingAids(req: any): Promise<{
         success: boolean;
-        pendingAids: import("./aid.entity").Aid[];
+        pendingAids: import("./dto/aidrequest.dto").RequestDTO[];
     }>;
     catch(error: any): {
         success: boolean;
