@@ -5,11 +5,13 @@ import { Repository } from "typeorm";
 import { Aid } from "./aid.entity";
 import { InjectRepository } from "@nestjs/typeorm";
 import { AidStatus } from "./enum/status.enum";
+import { RabbitmqService } from "src/rabbitmq/rabbitmq.service";
 
 @Injectable()
 export class AidService {
   constructor(
     private userService: UserService,
+    private rabbitMqService: RabbitmqService,
     @InjectRepository(Aid) private aidsRepository: Repository<Aid>
   ) {}
 
@@ -17,7 +19,7 @@ export class AidService {
     applicantId: number,
     wardId: number,
     service: string
-  ): Promise<Aid> {
+  ){
     const ward = await this.userService.findOne(wardId);
     const applicant = await this.userService.findOne(applicantId);
     if (!ward) {
@@ -30,8 +32,8 @@ export class AidService {
     aidRequest.address = applicant.address || "Default Address";
     aidRequest.service = service;
     aidRequest.status = AidStatus.PENDING;
-
-    return this.aidsRepository.save(aidRequest);
+    this.aidsRepository.save(aidRequest)
+    return await this.rabbitMqService.placeAidRequest(aidRequest);
   }
   async findPendingAidsForWard(wardId: number): Promise<Aid[]> {
     return this.aidsRepository.find({

@@ -1,11 +1,15 @@
 import { UserService } from "src/user/user.service";
 import { Repository } from "typeorm";
 import { Aid } from "./aid.entity";
+import { RabbitmqService } from "src/rabbitmq/rabbitmq.service";
 export declare class AidService {
     private userService;
+    private rabbitMqService;
     private aidsRepository;
-    constructor(userService: UserService, aidsRepository: Repository<Aid>);
-    createAidRequest(applicantId: number, wardId: number, service: string): Promise<Aid>;
+    constructor(userService: UserService, rabbitMqService: RabbitmqService, aidsRepository: Repository<Aid>);
+    createAidRequest(applicantId: number, wardId: number, service: string): Promise<{
+        message: string;
+    }>;
     findPendingAidsForWard(wardId: number): Promise<Aid[]>;
     acceptAidRequest(aidId: number, wardId: number): Promise<Aid>;
     rejectAidRequest(aidId: number, wardId: number): Promise<Aid>;

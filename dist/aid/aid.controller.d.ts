@@ -3,7 +3,9 @@ import { CreateAidDto } from "./dto/aid.dto";
 export declare class AidController {
     private aidService;
     constructor(aidService: AidService);
-    requestAid(req: any, createAidDto: CreateAidDto): Promise<import("./aid.entity").Aid>;
+    requestAid(req: any, createAidDto: CreateAidDto): Promise<{
+        message: string;
+    }>;
     getPendingAids(req: any): Promise<{
         success: boolean;
         pendingAids: import("./aid.entity").Aid[];

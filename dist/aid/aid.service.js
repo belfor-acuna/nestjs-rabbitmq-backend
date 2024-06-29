@@ -19,9 +19,11 @@ const typeorm_1 = require("typeorm");
 const aid_entity_1 = require("./aid.entity");
 const typeorm_2 = require("@nestjs/typeorm");
 const status_enum_1 = require("./enum/status.enum");
+const rabbitmq_service_1 = require("../rabbitmq/rabbitmq.service");
 let AidService = class AidService {
-    constructor(userService, aidsRepository) {
+    constructor(userService, rabbitMqService, aidsRepository) {
         this.userService = userService;
+        this.rabbitMqService = rabbitMqService;
         this.aidsRepository = aidsRepository;
     }
     async createAidRequest(applicantId, wardId, service) {
@@ -36,7 +38,8 @@ let AidService = class AidService {
         aidRequest.address = applicant.address || "Default Address";
         aidRequest.service = service;
         aidRequest.status = status_enum_1.AidStatus.PENDING;
-        return this.aidsRepository.save(aidRequest);
+        this.aidsRepository.save(aidRequest);
+        return await this.rabbitMqService.placeAidRequest(aidRequest);
     }
     async findPendingAidsForWard(wardId) {
         return this.aidsRepository.find({
@@ -92,8 +95,9 @@ let AidService = class AidService {
 exports.AidService = AidService;
 exports.AidService = AidService = __decorate([
     (0, common_1.Injectable)(),
-    __param(1, (0, typeorm_2.InjectRepository)(aid_entity_1.Aid)),
+    __param(2, (0, typeorm_2.InjectRepository)(aid_entity_1.Aid)),
     __metadata("design:paramtypes", [user_service_1.UserService,
+        rabbitmq_service_1.RabbitmqService,
         typeorm_1.Repository])
 ], AidService);
 //# sourceMappingURL=aid.service.js.map

@@ -11,6 +11,7 @@ import { User } from "./user/user.entity";
 import { Service } from "./service/service.entity";
 import { ServiceModule } from "./service/service.module";
 import { SecurityModule } from './security/security.module';
+import { RabbitmqModule } from './rabbitmq/rabbitmq.module';
 
 @Module({
   imports: [
@@ -36,7 +37,8 @@ import { SecurityModule } from './security/security.module';
     AidModule,
     UserModule,
     ServiceModule,
-    SecurityModule
+    SecurityModule,
+    RabbitmqModule
   ],
   controllers: [AppController],
   providers: [AppService],
