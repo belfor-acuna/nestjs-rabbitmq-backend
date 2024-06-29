@@ -11,7 +11,7 @@ import { AidModule } from "src/aid/aid.module";
         name: "AID_REQUESTS_SERVICE",
         transport: Transport.RMQ,
         options: {
-          urls: ["amqp://localhost:5674"],
+          urls: ["amqp://200.13.4.213:5674"],
           queue: "aid requests queue",
         },
       },
