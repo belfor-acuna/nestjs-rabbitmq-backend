@@ -5,6 +5,8 @@ import { RegisterAuthDto } from "src/auth/dto/authDto";
 import { ROLES } from "./roles/roles.enum";
 import { SecurityService } from "src/security/security.service";
 import { Repository } from "typeorm";
+import { plainToClass } from "class-transformer";
+import { WardDto } from "./dto/ward.dto";
 
 @Injectable()
 export class UserService {
@@ -20,8 +22,33 @@ export class UserService {
     private securityService: SecurityService
   ) {}
 
-  findAll(): Promise<User[]> {
-    return this.usersRepository.find();
+  async findAll(): Promise<WardDto[]> {
+    const users = await this.usersRepository.find({
+      where: { roles: ROLES.Ward },
+      relations: ["services"],
+    });
+
+    // Mapeo manual a WardDto
+    return users.map((user) => {
+      const wardDto = plainToClass(WardDto, {
+        id: user.id,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        servicios: user.services,
+        descripcion: user.description,
+        edad: user.age,
+        disponible: true,
+        ubicacion: { latitude: user.latitude, longitude: user.longitude },
+        direccion: user.address,
+        costoPorHora: user.pricePerHour,
+        puntaje: 4.5,
+        cantidadResenas: 10,
+        fotoPerfil: "default_profile_picture_url",
+        email: user.email,
+        phoneNumber: user.phoneNumber,
+      });
+      return wardDto;
+    });
   }
 
   async findOne(id: number): Promise<User> {

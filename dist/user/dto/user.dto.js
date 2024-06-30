@@ -9,45 +9,69 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.UserDto = void 0;
+exports.WardDto = void 0;
 const class_transformer_1 = require("class-transformer");
-class UserDto {
+class WardDto {
 }
-exports.UserDto = UserDto;
-__decorate([
-    (0, class_transformer_1.Expose)(),
-    __metadata("design:type", String)
-], UserDto.prototype, "firstName", void 0);
-__decorate([
-    (0, class_transformer_1.Expose)(),
-    __metadata("design:type", String)
-], UserDto.prototype, "lastName", void 0);
-__decorate([
-    (0, class_transformer_1.Expose)(),
-    __metadata("design:type", String)
-], UserDto.prototype, "description", void 0);
+exports.WardDto = WardDto;
 __decorate([
     (0, class_transformer_1.Expose)(),
     __metadata("design:type", Number)
-], UserDto.prototype, "age", void 0);
+], WardDto.prototype, "id", void 0);
 __decorate([
     (0, class_transformer_1.Expose)(),
-    __metadata("design:type", Number)
-], UserDto.prototype, "pricePerHour", void 0);
+    __metadata("design:type", String)
+], WardDto.prototype, "firstName", void 0);
+__decorate([
+    (0, class_transformer_1.Expose)(),
+    __metadata("design:type", String)
+], WardDto.prototype, "lastName", void 0);
 __decorate([
     (0, class_transformer_1.Expose)(),
     __metadata("design:type", Array)
-], UserDto.prototype, "services", void 0);
+], WardDto.prototype, "servicios", void 0);
 __decorate([
     (0, class_transformer_1.Expose)(),
     __metadata("design:type", String)
-], UserDto.prototype, "phoneNumber", void 0);
+], WardDto.prototype, "descripcion", void 0);
 __decorate([
     (0, class_transformer_1.Expose)(),
     __metadata("design:type", Number)
-], UserDto.prototype, "id", void 0);
+], WardDto.prototype, "edad", void 0);
+__decorate([
+    (0, class_transformer_1.Expose)(),
+    __metadata("design:type", Boolean)
+], WardDto.prototype, "disponible", void 0);
+__decorate([
+    (0, class_transformer_1.Expose)(),
+    __metadata("design:type", Object)
+], WardDto.prototype, "ubicacion", void 0);
 __decorate([
     (0, class_transformer_1.Expose)(),
     __metadata("design:type", String)
-], UserDto.prototype, "email", void 0);
+], WardDto.prototype, "direccion", void 0);
+__decorate([
+    (0, class_transformer_1.Expose)(),
+    __metadata("design:type", Number)
+], WardDto.prototype, "costoPorHora", void 0);
+__decorate([
+    (0, class_transformer_1.Expose)(),
+    __metadata("design:type", Number)
+], WardDto.prototype, "puntaje", void 0);
+__decorate([
+    (0, class_transformer_1.Expose)(),
+    __metadata("design:type", Number)
+], WardDto.prototype, "cantidadResenas", void 0);
+__decorate([
+    (0, class_transformer_1.Expose)(),
+    __metadata("design:type", String)
+], WardDto.prototype, "fotoPerfil", void 0);
+__decorate([
+    (0, class_transformer_1.Expose)(),
+    __metadata("design:type", String)
+], WardDto.prototype, "email", void 0);
+__decorate([
+    (0, class_transformer_1.Expose)(),
+    __metadata("design:type", String)
+], WardDto.prototype, "phoneNumber", void 0);
 //# sourceMappingURL=user.dto.js.map

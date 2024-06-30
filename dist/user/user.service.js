@@ -19,6 +19,8 @@ const user_entity_1 = require("./user.entity");
 const roles_enum_1 = require("./roles/roles.enum");
 const security_service_1 = require("../security/security.service");
 const typeorm_2 = require("typeorm");
+const class_transformer_1 = require("class-transformer");
+const user_dto_1 = require("./dto/user.dto");
 let UserService = class UserService {
     async updateCoordinates(latitude, longitude, userId) {
         const user = await this.findOne(userId);
@@ -30,8 +32,31 @@ let UserService = class UserService {
         this.usersRepository = usersRepository;
         this.securityService = securityService;
     }
-    findAll() {
-        return this.usersRepository.find();
+    async findAll() {
+        const users = await this.usersRepository.find({
+            where: { roles: roles_enum_1.ROLES.Ward },
+            relations: ["services"],
+        });
+        return users.map((user) => {
+            const wardDto = (0, class_transformer_1.plainToClass)(user_dto_1.WardDto, {
+                id: user.id,
+                firstName: user.firstName,
+                lastName: user.lastName,
+                servicios: user.services,
+                descripcion: user.description,
+                edad: user.age,
+                disponible: true,
+                ubicacion: { latitude: user.latitude, longitude: user.longitude },
+                direccion: user.address,
+                costoPorHora: user.pricePerHour,
+                puntaje: 4.5,
+                cantidadResenas: 10,
+                fotoPerfil: "default_profile_picture_url",
+                email: user.email,
+                phoneNumber: user.phoneNumber,
+            });
+            return wardDto;
+        });
     }
     async findOne(id) {
         const user = await this.usersRepository.findOne({

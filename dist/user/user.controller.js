@@ -25,7 +25,7 @@ let UserController = class UserController {
     async findUser(id) {
         return this.userService.findOne(id);
     }
-    async getAll() {
+    async getWards() {
         return this.userService.findAll();
     }
     async updateCoordinates(createCoordsDto, req) {
@@ -43,11 +43,11 @@ __decorate([
 ], UserController.prototype, "findUser", null);
 __decorate([
     (0, roles_decorator_1.Roles)(roles_enum_1.ROLES.Applicant),
-    (0, common_1.Get)("all"),
+    (0, common_1.Get)("wards"),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
-], UserController.prototype, "getAll", null);
+], UserController.prototype, "getWards", null);
 __decorate([
     (0, roles_decorator_1.Roles)(roles_enum_1.ROLES.Applicant, roles_enum_1.ROLES.Ward),
     (0, common_1.Patch)('coordinates'),

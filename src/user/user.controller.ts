@@ -15,9 +15,9 @@ export class UserController {
     return this.userService.findOne(id);
   }
 
-  @Roles(ROLES.Applicant)
-  @Get("all")
-  async getAll() {
+  @Roles(ROLES.Applicant, ROLES.Ward)
+  @Get("wards")
+  async getWards() {
     return this.userService.findAll();
   }
 
