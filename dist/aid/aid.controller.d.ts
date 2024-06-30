@@ -5,6 +5,7 @@ export declare class AidController {
     constructor(aidService: AidService);
     requestAid(req: any, createAidDto: CreateAidDto): Promise<{
         message: string;
+        request: import("./dto/aidrequest.dto").RequestDTO;
     }>;
     getPendingAids(req: any): Promise<{
         success: boolean;

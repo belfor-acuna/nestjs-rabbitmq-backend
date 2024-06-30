@@ -20,6 +20,10 @@ __decorate([
     __metadata("design:type", Number)
 ], RequestDTO.prototype, "id", void 0);
 __decorate([
+    (0, class_validator_1.IsInt)(),
+    __metadata("design:type", Number)
+], RequestDTO.prototype, "userId", void 0);
+__decorate([
     (0, class_validator_1.IsString)(),
     __metadata("design:type", String)
 ], RequestDTO.prototype, "firstName", void 0);

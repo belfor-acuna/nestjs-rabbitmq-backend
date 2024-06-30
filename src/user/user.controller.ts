@@ -1,8 +1,9 @@
-import { Controller, Get, Param } from "@nestjs/common";
+import { Body, Controller, Get, Param, Patch, Request } from "@nestjs/common";
 import { ROLES } from "./roles/roles.enum";
 import { Roles } from "./roles/roles.decorator";
 import { UserService } from "./user.service";
 import { User } from "./user.entity";
+import { CreateCoordsDto } from "./dto/coords.dto";
 
 @Controller("user")
 export class UserController {
@@ -18,5 +19,11 @@ export class UserController {
   @Get("all")
   async getAll() {
     return this.userService.findAll();
+  }
+
+  @Roles(ROLES.Applicant, ROLES.Ward)
+  @Patch('coordinates')
+  async updateCoordinates(@Body() createCoordsDto: CreateCoordsDto, @Request() req){
+    return this.userService.updateCoordinates(createCoordsDto.latitude, createCoordsDto.longitude, req.user.userId)
   }
 }

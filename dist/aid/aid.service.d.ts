@@ -10,6 +10,7 @@ export declare class AidService {
     constructor(userService: UserService, rabbitMqService: RabbitmqService, aidsRepository: Repository<Aid>);
     createAidRequest(applicantId: number, wardId: number, service: string): Promise<{
         message: string;
+        request: RequestDTO;
     }>;
     findPendingAidsForWard(wardId: number): Promise<RequestDTO[]>;
     acceptAidRequest(aidId: number, wardId: number): Promise<Aid>;

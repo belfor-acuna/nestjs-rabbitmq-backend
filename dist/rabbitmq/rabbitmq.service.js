@@ -15,13 +15,25 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.RabbitmqService = void 0;
 const common_1 = require("@nestjs/common");
 const microservices_1 = require("@nestjs/microservices");
+const aidrequest_dto_1 = require("../aid/dto/aidrequest.dto");
 let RabbitmqService = class RabbitmqService {
     constructor(rabbitClient) {
         this.rabbitClient = rabbitClient;
     }
     placeAidRequest(aidRequest) {
-        this.rabbitClient.emit('aid-request-placed', aidRequest);
-        return { message: "Aid request placed!" };
+        const request = new aidrequest_dto_1.RequestDTO();
+        request.address = aidRequest.address;
+        request.description = aidRequest.applicant.description;
+        request.firstName = aidRequest.applicant.firstName;
+        request.fullName = `${aidRequest.applicant.firstName} ${aidRequest.applicant.lastName}`;
+        request.id = aidRequest.id;
+        request.latitude = aidRequest.applicant.latitude;
+        request.longitude = aidRequest.applicant.longitude;
+        request.servicesRequested = aidRequest.applicant.services;
+        request.status = aidRequest.status;
+        request.userId = aidRequest.applicant.id;
+        this.rabbitClient.emit('aid-request-placed', request);
+        return { message: "Aid request placed!", request: request };
     }
 };
 exports.RabbitmqService = RabbitmqService;

@@ -17,6 +17,7 @@ const common_1 = require("@nestjs/common");
 const roles_enum_1 = require("./roles/roles.enum");
 const roles_decorator_1 = require("./roles/roles.decorator");
 const user_service_1 = require("./user.service");
+const coords_dto_1 = require("./dto/coords.dto");
 let UserController = class UserController {
     constructor(userService) {
         this.userService = userService;
@@ -26,6 +27,9 @@ let UserController = class UserController {
     }
     async getAll() {
         return this.userService.findAll();
+    }
+    async updateCoordinates(createCoordsDto, req) {
+        return this.userService.updateCoordinates(createCoordsDto.latitude, createCoordsDto.longitude, req.user.userId);
     }
 };
 exports.UserController = UserController;
@@ -44,6 +48,15 @@ __decorate([
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "getAll", null);
+__decorate([
+    (0, roles_decorator_1.Roles)(roles_enum_1.ROLES.Applicant, roles_enum_1.ROLES.Ward),
+    (0, common_1.Patch)('coordinates'),
+    __param(0, (0, common_1.Body)()),
+    __param(1, (0, common_1.Request)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [coords_dto_1.CreateCoordsDto, Object]),
+    __metadata("design:returntype", Promise)
+], UserController.prototype, "updateCoordinates", null);
 exports.UserController = UserController = __decorate([
     (0, common_1.Controller)("user"),
     __metadata("design:paramtypes", [user_service_1.UserService])

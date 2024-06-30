@@ -1,11 +1,13 @@
-// request.dto.ts
-
 import { IsInt, IsString, IsNumber, IsArray, IsEnum } from 'class-validator';
 import { AidStatus } from '../enum/status.enum';
+import { Service } from 'src/service/service.entity';
 
 export class RequestDTO {
   @IsInt()
   id: number;
+
+  @IsInt()
+  userId: number;
 
   @IsString()
   firstName: string;
@@ -23,7 +25,7 @@ export class RequestDTO {
   longitude: number;
 
   @IsArray()
-  servicesRequested: string[];
+  servicesRequested: Service[];
 
   @IsEnum(AidStatus)
   status: AidStatus;

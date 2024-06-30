@@ -5,6 +5,7 @@ import { Repository } from "typeorm";
 export declare class UserService {
     private usersRepository;
     private securityService;
+    updateCoordinates(latitude: number, longitude: number, userId: number): Promise<User>;
     constructor(usersRepository: Repository<User>, securityService: SecurityService);
     findAll(): Promise<User[]>;
     findOne(id: number): Promise<User>;

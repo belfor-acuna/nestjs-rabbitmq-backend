@@ -13,6 +13,8 @@ export declare class User {
     phoneNumber: string;
     pricePerHour: number;
     email: string;
+    latitude: number;
+    longitude: number;
     roles: ROLES[];
     services: Service[];
     aidAsWard: Aid[];

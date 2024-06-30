@@ -22,7 +22,6 @@ export class AidService {
     if (!ward) {
       throw new Error(`Ward with id ${wardId} not found`);
     }
-
     const aidRequest = new Aid();
     aidRequest.applicant = applicant;
     aidRequest.ward = ward;
@@ -32,6 +31,7 @@ export class AidService {
     this.aidsRepository.save(aidRequest);
     return await this.rabbitMqService.placeAidRequest(aidRequest);
   }
+
   async findPendingAidsForWard(wardId: number): Promise<RequestDTO[]> {
     const aids = await this.aidsRepository.find({
       where: {
@@ -47,11 +47,11 @@ export class AidService {
       firstName: aid.applicant.firstName,
       fullName: `${aid.applicant.firstName} ${aid.applicant.lastName}`,
       address: aid.address,
-      latitude: -38.74742,
-      longitude: -72.61775,
+      latitude: aid.applicant.latitude,
+      longitude: aid.applicant.longitude,
       description: aid.applicant.description,
       status: AidStatus.PENDING,
-      servicesRequested: aid.applicant.services.map((service) => service.tag),
+      servicesRequested: aid.applicant.services,
     }));
 
     return pendingAidsDTO;

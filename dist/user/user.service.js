@@ -20,6 +20,12 @@ const roles_enum_1 = require("./roles/roles.enum");
 const security_service_1 = require("../security/security.service");
 const typeorm_2 = require("typeorm");
 let UserService = class UserService {
+    async updateCoordinates(latitude, longitude, userId) {
+        const user = await this.findOne(userId);
+        user.latitude = latitude;
+        user.longitude = longitude;
+        return this.usersRepository.save(user);
+    }
     constructor(usersRepository, securityService) {
         this.usersRepository = usersRepository;
         this.securityService = securityService;

@@ -8,6 +8,12 @@ import { Repository } from "typeorm";
 
 @Injectable()
 export class UserService {
+  async updateCoordinates(latitude: number, longitude: number, userId: number) {
+    const user = await this.findOne(userId);
+    user.latitude = latitude;
+    user.longitude = longitude;
+    return this.usersRepository.save(user);
+  }
   constructor(
     @InjectRepository(User)
     private usersRepository: Repository<User>,

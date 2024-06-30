@@ -61,6 +61,14 @@ __decorate([
     __metadata("design:type", String)
 ], User.prototype, "email", void 0);
 __decorate([
+    (0, typeorm_1.Column)('decimal', { precision: 10, scale: 6, nullable: true }),
+    __metadata("design:type", Number)
+], User.prototype, "latitude", void 0);
+__decorate([
+    (0, typeorm_1.Column)('decimal', { precision: 10, scale: 6, nullable: true }),
+    __metadata("design:type", Number)
+], User.prototype, "longitude", void 0);
+__decorate([
     (0, typeorm_1.Column)('simple-array'),
     __metadata("design:type", Array)
 ], User.prototype, "roles", void 0);

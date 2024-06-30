@@ -55,11 +55,11 @@ let AidService = class AidService {
             firstName: aid.applicant.firstName,
             fullName: `${aid.applicant.firstName} ${aid.applicant.lastName}`,
             address: aid.address,
-            latitude: -38.74742,
-            longitude: -72.61775,
+            latitude: aid.applicant.latitude,
+            longitude: aid.applicant.longitude,
             description: aid.applicant.description,
             status: status_enum_1.AidStatus.PENDING,
-            servicesRequested: aid.applicant.services.map((service) => service.tag),
+            servicesRequested: aid.applicant.services,
         }));
         return pendingAidsDTO;
     }
