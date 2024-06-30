@@ -12,26 +12,35 @@ const rabbitmq_controller_1 = require("./rabbitmq.controller");
 const rabbitmq_service_1 = require("./rabbitmq.service");
 const microservices_1 = require("@nestjs/microservices");
 const aid_module_1 = require("../aid/aid.module");
+const config_1 = require("@nestjs/config");
 let RabbitmqModule = class RabbitmqModule {
 };
 exports.RabbitmqModule = RabbitmqModule;
 exports.RabbitmqModule = RabbitmqModule = __decorate([
     (0, common_1.Module)({
         imports: [
-            microservices_1.ClientsModule.register([
+            config_1.ConfigModule,
+            microservices_1.ClientsModule.registerAsync([
                 {
                     name: "AID_REQUESTS_SERVICE",
-                    transport: microservices_1.Transport.RMQ,
-                    options: {
-                        urls: ["amqp://localhost:5674"],
-                        queue: "aid requests queue",
-                    },
+                    imports: [config_1.ConfigModule],
+                    useFactory: async (configService) => ({
+                        transport: microservices_1.Transport.RMQ,
+                        options: {
+                            urls: [
+                                `amqp://${configService.get('RABBITMQ_USER')}:${configService.get('RABBITMQ_PASSWORD')}@${configService.get('RABBITMQ_HOST')}:${configService.get('RABBITMQ_PORT')}`,
+                            ],
+                            queue: "aid_requests_queue",
+                        },
+                    }),
+                    inject: [config_1.ConfigService],
                 },
-            ]), (0, common_1.forwardRef)(() => aid_module_1.AidModule)
+            ]),
+            (0, common_1.forwardRef)(() => aid_module_1.AidModule),
         ],
         controllers: [rabbitmq_controller_1.RabbitmqController],
         providers: [rabbitmq_service_1.RabbitmqService],
-        exports: [rabbitmq_service_1.RabbitmqService]
+        exports: [rabbitmq_service_1.RabbitmqService],
     })
 ], RabbitmqModule);
 //# sourceMappingURL=rabbitmq.module.js.map

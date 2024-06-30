@@ -1,11 +1,22 @@
 version: "3.9"
 
 services:
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    ports:  
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD}
+
   nestjs-app:
     container_name: nestjs-app
     image: registry.gitlab.com/dci-project/arqsoft-dci/proyectos/1s2024/ward/ward-app/ward-backend-api:latest 
     depends_on:
       - postgres
+      - rabbitmq
     environment:
       DB_HOST: postgres
       DB_PORT: 5432
@@ -13,6 +24,10 @@ services:
       DB_PASSWORD: ${DB_PASSWORD}
       DB_DATABASE: ${DB_DATABASE}
       JWT_SECRET: ${JWT_SECRET}
+      RABBITMQ_HOST: rabbitmq
+      RABBITMQ_PORT: 5672
+      RABBITMQ_USER: ${RABBITMQ_USER}
+      RABBITMQ_PASSWORD: ${RABBITMQ_PASSWORD}
     ports:
       - "3000:3000"  
 

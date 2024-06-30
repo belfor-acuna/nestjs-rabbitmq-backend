@@ -3,22 +3,31 @@ import { RabbitmqController } from "./rabbitmq.controller";
 import { RabbitmqService } from "./rabbitmq.service";
 import { ClientsModule, Transport } from "@nestjs/microservices";
 import { AidModule } from "src/aid/aid.module";
+import { ConfigModule, ConfigService } from '@nestjs/config';
 
 @Module({
   imports: [
-    ClientsModule.register([
+    ConfigModule,
+    ClientsModule.registerAsync([
       {
         name: "AID_REQUESTS_SERVICE",
-        transport: Transport.RMQ,
-        options: {
-          urls: ["amqp://200.13.4.213:5674"],
-          queue: "aid requests queue",
-        },
+        imports: [ConfigModule],
+        useFactory: async (configService: ConfigService) => ({
+          transport: Transport.RMQ,
+          options: {
+            urls: [
+              `amqp://${configService.get<string>('RABBITMQ_USER')}:${configService.get<string>('RABBITMQ_PASSWORD')}@${configService.get<string>('RABBITMQ_HOST')}:${configService.get<number>('RABBITMQ_PORT')}`,
+            ],
+            queue: "aid_requests_queue",
+          },
+        }),
+        inject: [ConfigService],
       },
-    ]),forwardRef(() => AidModule)
+    ]),
+    forwardRef(() => AidModule),
   ],
   controllers: [RabbitmqController],
   providers: [RabbitmqService],
-  exports:[RabbitmqService]
+  exports: [RabbitmqService],
 })
 export class RabbitmqModule {}

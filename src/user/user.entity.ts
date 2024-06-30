@@ -8,19 +8,19 @@ export class User {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ nullable: false })
+  @Column({ nullable: false})
   firstName: string;
 
-  @Column({ nullable: false })
+  @Column({ nullable: false})
   lastName: string;
 
   @Column({nullable:true})
   description: string
 
-  @Column()
+  @Column({nullable:false})
   salt: string;
 
-  @Column()
+  @Column({nullable:false})
   hash:string;
 
   @Column({ nullable: true })
