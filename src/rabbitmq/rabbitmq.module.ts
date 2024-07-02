@@ -19,9 +19,6 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
               `amqp://${configService.get<string>('RABBITMQ_USER')}:${configService.get<string>('RABBITMQ_PASSWORD')}@${configService.get<string>('RABBITMQ_HOST')}:${configService.get<number>('RABBITMQ_PORT')}`,
             ],
             queue: "aid_requests_queue",
-            queueOptions: {
-              durable: false
-            },
           },
         }),
         inject: [ConfigService],
@@ -36,9 +33,6 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
               `amqp://${configService.get<string>('RABBITMQ_USER')}:${configService.get<string>('RABBITMQ_PASSWORD')}@${configService.get<string>('RABBITMQ_HOST')}:${configService.get<number>('RABBITMQ_PORT')}`,
             ],
             queue: "aid_accepted_queue",
-            queueOptions: {
-              durable: false
-            },
           },
         }),
         inject: [ConfigService],
