@@ -30,7 +30,7 @@ export class RabbitmqService {
     }
 
     acceptRequest(acceptedAid: Aid) {
-        this.logger.log(`Sending accepted aid request to aid_accepted_queue: ${JSON.stringify(acceptedAid)}`);
+        console.log(`Sending accepted aid request to aid_accepted_queue: ${JSON.stringify(acceptedAid)}`);
         this.rabbitAcceptClient.emit('aid-request-accepted', acceptedAid);
         return { message: "Aid request accepted!", aid: acceptedAid };
     }
