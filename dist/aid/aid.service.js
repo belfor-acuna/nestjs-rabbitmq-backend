@@ -63,6 +63,16 @@ let AidService = class AidService {
         }));
         return pendingAidsDTO;
     }
+    async findAcceptedAid(aidId) {
+        const aid = await this.aidsRepository.findOne({
+            where: {
+                id: aidId,
+                status: status_enum_1.AidStatus.ACCEPTED,
+            },
+            relations: ["ward", "applicant", "applicant.services"],
+        });
+        return aid;
+    }
     async acceptAidRequest(aidId, wardId) {
         const ward = await this.userService.findOne(wardId);
         const aid = await this.findAid(aidId);
@@ -70,7 +80,8 @@ let AidService = class AidService {
             throw new Error(`Aid with id ${aidId} does not belong to ward with id ${wardId}`);
         }
         aid.status = status_enum_1.AidStatus.ACCEPTED;
-        return this.aidsRepository.save(aid);
+        this.aidsRepository.save(aid);
+        return this.rabbitMqService.acceptRequest(aid);
     }
     async rejectAidRequest(aidId, wardId) {
         const ward = await this.userService.findOne(wardId);

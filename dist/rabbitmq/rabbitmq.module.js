@@ -31,6 +31,26 @@ exports.RabbitmqModule = RabbitmqModule = __decorate([
                                 `amqp://${configService.get('RABBITMQ_USER')}:${configService.get('RABBITMQ_PASSWORD')}@${configService.get('RABBITMQ_HOST')}:${configService.get('RABBITMQ_PORT')}`,
                             ],
                             queue: "aid_requests_queue",
+                            queueOptions: {
+                                durable: false
+                            },
+                        },
+                    }),
+                    inject: [config_1.ConfigService],
+                },
+                {
+                    name: "AID_ACCEPTED_SERVICE",
+                    imports: [config_1.ConfigModule],
+                    useFactory: async (configService) => ({
+                        transport: microservices_1.Transport.RMQ,
+                        options: {
+                            urls: [
+                                `amqp://${configService.get('RABBITMQ_USER')}:${configService.get('RABBITMQ_PASSWORD')}@${configService.get('RABBITMQ_HOST')}:${configService.get('RABBITMQ_PORT')}`,
+                            ],
+                            queue: "aid_accepted_queue",
+                            queueOptions: {
+                                durable: false
+                            },
                         },
                     }),
                     inject: [config_1.ConfigService],

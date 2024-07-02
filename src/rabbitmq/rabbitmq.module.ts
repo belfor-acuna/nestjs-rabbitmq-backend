@@ -19,6 +19,26 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
               `amqp://${configService.get<string>('RABBITMQ_USER')}:${configService.get<string>('RABBITMQ_PASSWORD')}@${configService.get<string>('RABBITMQ_HOST')}:${configService.get<number>('RABBITMQ_PORT')}`,
             ],
             queue: "aid_requests_queue",
+            queueOptions: {
+              durable: false
+            },
+          },
+        }),
+        inject: [ConfigService],
+      },
+      {
+        name: "AID_ACCEPTED_SERVICE",
+        imports: [ConfigModule],
+        useFactory: async (configService: ConfigService) => ({
+          transport: Transport.RMQ,
+          options: {
+            urls: [
+              `amqp://${configService.get<string>('RABBITMQ_USER')}:${configService.get<string>('RABBITMQ_PASSWORD')}@${configService.get<string>('RABBITMQ_HOST')}:${configService.get<number>('RABBITMQ_PORT')}`,
+            ],
+            queue: "aid_accepted_queue",
+            queueOptions: {
+              durable: false
+            },
           },
         }),
         inject: [ConfigService],

@@ -2,7 +2,7 @@ import { User } from "./user.entity";
 import { RegisterAuthDto } from "src/auth/dto/authDto";
 import { SecurityService } from "src/security/security.service";
 import { Repository } from "typeorm";
-import { WardDto } from "./dto/user.dto";
+import { WardDto } from "./dto/ward.dto";
 export declare class UserService {
     private usersRepository;
     private securityService;

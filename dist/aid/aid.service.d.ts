@@ -13,7 +13,11 @@ export declare class AidService {
         request: RequestDTO;
     }>;
     findPendingAidsForWard(wardId: number): Promise<RequestDTO[]>;
-    acceptAidRequest(aidId: number, wardId: number): Promise<Aid>;
+    findAcceptedAid(aidId: number): Promise<Aid>;
+    acceptAidRequest(aidId: number, wardId: number): Promise<{
+        message: string;
+        aid: Aid;
+    }>;
     rejectAidRequest(aidId: number, wardId: number): Promise<Aid>;
     finishAid(aidId: number, userId: number): Promise<Aid>;
     findAid(aidId: number): Promise<Aid>;

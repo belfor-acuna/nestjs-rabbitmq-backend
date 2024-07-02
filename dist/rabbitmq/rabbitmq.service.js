@@ -17,8 +17,9 @@ const common_1 = require("@nestjs/common");
 const microservices_1 = require("@nestjs/microservices");
 const aidrequest_dto_1 = require("../aid/dto/aidrequest.dto");
 let RabbitmqService = class RabbitmqService {
-    constructor(rabbitClient) {
-        this.rabbitClient = rabbitClient;
+    constructor(rabbitRequestClient, rabbitAcceptClient) {
+        this.rabbitRequestClient = rabbitRequestClient;
+        this.rabbitAcceptClient = rabbitAcceptClient;
     }
     placeAidRequest(aidRequest) {
         const request = new aidrequest_dto_1.RequestDTO();
@@ -32,14 +33,19 @@ let RabbitmqService = class RabbitmqService {
         request.servicesRequested = aidRequest.applicant.services;
         request.status = aidRequest.status;
         request.userId = aidRequest.applicant.id;
-        this.rabbitClient.emit('aid-request-placed', request);
+        this.rabbitRequestClient.emit('aid-request-placed', request);
         return { message: "Aid request placed!", request: request };
+    }
+    acceptRequest(acceptedAid) {
+        this.rabbitRequestClient.emit('aid-accepted-queue', acceptedAid);
+        return { message: "Aid request accepted!", aid: acceptedAid };
     }
 };
 exports.RabbitmqService = RabbitmqService;
 exports.RabbitmqService = RabbitmqService = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, common_1.Inject)('AID_REQUESTS_SERVICE')),
-    __metadata("design:paramtypes", [microservices_1.ClientProxy])
+    __param(1, (0, common_1.Inject)('AID_ACCEPTED_SERVICE')),
+    __metadata("design:paramtypes", [microservices_1.ClientProxy, microservices_1.ClientProxy])
 ], RabbitmqService);
 //# sourceMappingURL=rabbitmq.service.js.map

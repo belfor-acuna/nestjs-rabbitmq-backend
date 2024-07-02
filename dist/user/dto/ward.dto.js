@@ -74,4 +74,4 @@ __decorate([
     (0, class_transformer_1.Expose)(),
     __metadata("design:type", String)
 ], WardDto.prototype, "phoneNumber", void 0);
-//# sourceMappingURL=user.dto.js.map
+//# sourceMappingURL=ward.dto.js.map

@@ -15,7 +15,11 @@ export declare class AidController {
         success: boolean;
         error: any;
     };
-    acceptPendingAid(aidId: number, req: any): Promise<import("./aid.entity").Aid>;
+    getAcceptedAid(aidId: number): Promise<import("./aid.entity").Aid>;
+    acceptPendingAid(aidId: number, req: any): Promise<{
+        message: string;
+        aid: import("./aid.entity").Aid;
+    }>;
     rejectPendingAid(aidId: number, req: any): Promise<import("./aid.entity").Aid>;
     finishAid(aidId: number, req: any): Promise<import("./aid.entity").Aid>;
     getAid(aidId: number): Promise<import("./aid.entity").Aid>;

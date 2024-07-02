@@ -57,7 +57,20 @@ export class AidService {
     return pendingAidsDTO;
   }
 
-  async acceptAidRequest(aidId: number, wardId: number): Promise<Aid> {
+  async findAcceptedAid(aidId: number): Promise<Aid> {
+    const aid = await this.aidsRepository.findOne({
+      where: {
+        id: aidId,
+        status: AidStatus.ACCEPTED,
+      },
+      relations: ["ward", "applicant", "applicant.services"],
+    });
+
+    return aid;
+  }
+  
+
+  async acceptAidRequest(aidId: number, wardId: number){
     const ward = await this.userService.findOne(wardId);
     const aid = await this.findAid(aidId);
     if (aid.ward.id !== ward.id) {
@@ -66,7 +79,8 @@ export class AidService {
       );
     }
     aid.status = AidStatus.ACCEPTED;
-    return this.aidsRepository.save(aid);
+    this.aidsRepository.save(aid)
+    return this.rabbitMqService.acceptRequest(aid);
   }
 
   async rejectAidRequest(aidId: number, wardId: number): Promise<Aid> {

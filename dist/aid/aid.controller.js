@@ -36,6 +36,9 @@ let AidController = class AidController {
             error: error.message || "Failed to fetch pending aids",
         };
     }
+    async getAcceptedAid(aidId) {
+        return await this.aidService.findAcceptedAid(aidId);
+    }
     async acceptPendingAid(aidId, req) {
         return await this.aidService.acceptAidRequest(aidId, req.user.userId);
     }
@@ -67,6 +70,14 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], AidController.prototype, "getPendingAids", null);
+__decorate([
+    (0, roles_decorator_1.Roles)(roles_enum_1.ROLES.Ward, roles_enum_1.ROLES.Applicant),
+    (0, common_1.Get)('accepted/:aidId'),
+    __param(0, (0, common_1.Param)("aidId")),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number]),
+    __metadata("design:returntype", Promise)
+], AidController.prototype, "getAcceptedAid", null);
 __decorate([
     (0, roles_decorator_1.Roles)(roles_enum_1.ROLES.Ward),
     (0, common_1.Patch)("ward/accept/:aidId"),

@@ -42,7 +42,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "findUser", null);
 __decorate([
-    (0, roles_decorator_1.Roles)(roles_enum_1.ROLES.Applicant),
+    (0, roles_decorator_1.Roles)(roles_enum_1.ROLES.Applicant, roles_enum_1.ROLES.Ward),
     (0, common_1.Get)("wards"),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),

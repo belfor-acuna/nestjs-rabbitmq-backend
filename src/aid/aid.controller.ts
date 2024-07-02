@@ -42,6 +42,12 @@ export class AidController {
     };
   }
 
+  @Roles(ROLES.Ward, ROLES.Applicant)
+  @Get('accepted/:aidId')
+  async getAcceptedAid(@Param("aidId") aidId: number){
+    return await this.aidService.findAcceptedAid(aidId);
+  }
+
   @Roles(ROLES.Ward)
   @Patch("ward/accept/:aidId")
   async acceptPendingAid(@Param("aidId") aidId: number, @Request() req) {

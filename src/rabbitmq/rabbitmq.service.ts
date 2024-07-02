@@ -5,7 +5,7 @@ import { RequestDTO } from 'src/aid/dto/aidrequest.dto';
 
 @Injectable()
 export class RabbitmqService {
-    constructor(@Inject('AID_REQUESTS_SERVICE') private rabbitClient: ClientProxy){}
+    constructor(@Inject('AID_REQUESTS_SERVICE') private rabbitRequestClient: ClientProxy, @Inject('AID_ACCEPTED_SERVICE') private rabbitAcceptClient: ClientProxy ){}
 
     placeAidRequest( aidRequest: Aid){
         const request = new RequestDTO();
@@ -19,7 +19,12 @@ export class RabbitmqService {
         request.servicesRequested = aidRequest.applicant.services;
         request.status = aidRequest.status;
         request.userId = aidRequest.applicant.id
-        this.rabbitClient.emit('aid-request-placed', request);
+        this.rabbitRequestClient.emit('aid-request-placed', request);
         return { message: "Aid request placed!", request: request}
+    }
+
+    acceptRequest( acceptedAid: Aid){
+        this.rabbitAcceptClient.emit('aid-request-accepted', acceptedAid);
+        return { message: "Aid request accepted!", aid: acceptedAid}
     }
 }   

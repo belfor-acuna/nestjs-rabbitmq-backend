@@ -20,7 +20,7 @@ const roles_enum_1 = require("./roles/roles.enum");
 const security_service_1 = require("../security/security.service");
 const typeorm_2 = require("typeorm");
 const class_transformer_1 = require("class-transformer");
-const user_dto_1 = require("./dto/user.dto");
+const ward_dto_1 = require("./dto/ward.dto");
 let UserService = class UserService {
     async updateCoordinates(latitude, longitude, userId) {
         const user = await this.findOne(userId);
@@ -38,7 +38,7 @@ let UserService = class UserService {
             relations: ["services"],
         });
         return users.map((user) => {
-            const wardDto = (0, class_transformer_1.plainToClass)(user_dto_1.WardDto, {
+            const wardDto = (0, class_transformer_1.plainToClass)(ward_dto_1.WardDto, {
                 id: user.id,
                 firstName: user.firstName,
                 lastName: user.lastName,
