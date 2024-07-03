@@ -11,15 +11,17 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
+var RabbitmqService_1;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.RabbitmqService = void 0;
 const common_1 = require("@nestjs/common");
 const microservices_1 = require("@nestjs/microservices");
 const aidrequest_dto_1 = require("../aid/dto/aidrequest.dto");
-let RabbitmqService = class RabbitmqService {
+let RabbitmqService = RabbitmqService_1 = class RabbitmqService {
     constructor(rabbitRequestClient, rabbitAcceptClient) {
         this.rabbitRequestClient = rabbitRequestClient;
         this.rabbitAcceptClient = rabbitAcceptClient;
+        this.logger = new common_1.Logger(RabbitmqService_1.name);
     }
     placeAidRequest(aidRequest) {
         const request = new aidrequest_dto_1.RequestDTO();
@@ -33,19 +35,22 @@ let RabbitmqService = class RabbitmqService {
         request.servicesRequested = aidRequest.applicant.services;
         request.status = aidRequest.status;
         request.userId = aidRequest.applicant.id;
+        this.logger.log(`Sending aid request to aid_requests_queue: ${JSON.stringify(request)}`);
         this.rabbitRequestClient.emit('aid-request-placed', request);
         return { message: "Aid request placed!", request: request };
     }
     acceptRequest(acceptedAid) {
-        this.rabbitRequestClient.emit('aid-accepted-queue', acceptedAid);
+        console.log(`Sending accepted aid request to aid_accepted_queue: ${JSON.stringify(acceptedAid)}`);
+        this.rabbitAcceptClient.emit('aid-request-accepted', acceptedAid);
         return { message: "Aid request accepted!", aid: acceptedAid };
     }
 };
 exports.RabbitmqService = RabbitmqService;
-exports.RabbitmqService = RabbitmqService = __decorate([
+exports.RabbitmqService = RabbitmqService = RabbitmqService_1 = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, common_1.Inject)('AID_REQUESTS_SERVICE')),
     __param(1, (0, common_1.Inject)('AID_ACCEPTED_SERVICE')),
-    __metadata("design:paramtypes", [microservices_1.ClientProxy, microservices_1.ClientProxy])
+    __metadata("design:paramtypes", [microservices_1.ClientProxy,
+        microservices_1.ClientProxy])
 ], RabbitmqService);
 //# sourceMappingURL=rabbitmq.service.js.map

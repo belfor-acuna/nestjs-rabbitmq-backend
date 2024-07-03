@@ -73,6 +73,46 @@ let AidService = class AidService {
         });
         return aid;
     }
+    async findFinishedAidsApplicant(applicantId) {
+        const aids = await this.aidsRepository.find({
+            where: {
+                applicant: { id: applicantId },
+                status: status_enum_1.AidStatus.COMPLETED
+            }, relations: ["ward", "applicant", "applicant.services"],
+        });
+        const finishedAids = aids.map((aid) => ({
+            id: aid.ward.id,
+            firstName: aid.ward.firstName,
+            fullName: `${aid.ward.firstName} ${aid.ward.lastName}`,
+            description: aid.ward.description,
+            address: aid.ward.address,
+            photoUrl: 'https://i.ibb.co/hfkbnCx/sabes-que-es-la-edad-biologica-mobile.jpg',
+            servicesRequested: aid.ward.services,
+            latitude: -38.7299815415665,
+            longitude: -72.585838313291
+        }));
+        return finishedAids;
+    }
+    async findFinishedAidsWard(wardId) {
+        const aids = await this.aidsRepository.find({
+            where: {
+                ward: { id: wardId },
+                status: status_enum_1.AidStatus.COMPLETED
+            }, relations: ["ward", "applicant", "applicant.services"],
+        });
+        const finishedAids = aids.map((aid) => ({
+            id: aid.applicant.id,
+            firstName: aid.applicant.firstName,
+            fullName: `${aid.applicant.firstName} ${aid.applicant.lastName}`,
+            description: aid.applicant.description,
+            address: aid.applicant.address,
+            photoUrl: 'https://i.ibb.co/hfkbnCx/sabes-que-es-la-edad-biologica-mobile.jpg',
+            servicesRequested: aid.applicant.services,
+            latitude: -38.7299815415665,
+            longitude: -72.585838313291
+        }));
+        return finishedAids;
+    }
     async acceptAidRequest(aidId, wardId) {
         const ward = await this.userService.findOne(wardId);
         const aid = await this.findAid(aidId);

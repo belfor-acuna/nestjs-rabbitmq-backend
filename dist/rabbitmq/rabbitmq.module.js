@@ -31,8 +31,12 @@ exports.RabbitmqModule = RabbitmqModule = __decorate([
                                 `amqp://${configService.get('RABBITMQ_USER')}:${configService.get('RABBITMQ_PASSWORD')}@${configService.get('RABBITMQ_HOST')}:${configService.get('RABBITMQ_PORT')}`,
                             ],
                             queue: "aid_requests_queue",
+                            exchange: {
+                                name: 'request',
+                                type: 'direct'
+                            },
                             queueOptions: {
-                                durable: false
+                                durable: true,
                             },
                         },
                     }),
@@ -47,9 +51,13 @@ exports.RabbitmqModule = RabbitmqModule = __decorate([
                             urls: [
                                 `amqp://${configService.get('RABBITMQ_USER')}:${configService.get('RABBITMQ_PASSWORD')}@${configService.get('RABBITMQ_HOST')}:${configService.get('RABBITMQ_PORT')}`,
                             ],
-                            queue: "aid_accepted_queue",
+                            queue: "aid_accept_queue",
+                            exchange: {
+                                name: 'accept',
+                                type: 'direct'
+                            },
                             queueOptions: {
-                                durable: false
+                                durable: true,
                             },
                         },
                     }),

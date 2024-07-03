@@ -9,7 +9,7 @@ export class RabbitmqService {
 
     constructor(
         @Inject('AID_REQUESTS_SERVICE') private rabbitRequestClient: ClientProxy,
-        @Inject('AID_ACCEPT_SERVICE') private rabbitAcceptClient: ClientProxy
+        @Inject('AID_ACCEPTED_SERVICE') private rabbitAcceptClient: ClientProxy
     ) {}
 
     placeAidRequest(aidRequest: Aid) {

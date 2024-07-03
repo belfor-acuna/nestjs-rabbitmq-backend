@@ -3,6 +3,7 @@ import { Repository } from "typeorm";
 import { Aid } from "./aid.entity";
 import { RabbitmqService } from "src/rabbitmq/rabbitmq.service";
 import { RequestDTO } from "./dto/aidrequest.dto";
+import { UserDto } from "src/user/dto/user.dto";
 export declare class AidService {
     private userService;
     private rabbitMqService;
@@ -14,6 +15,8 @@ export declare class AidService {
     }>;
     findPendingAidsForWard(wardId: number): Promise<RequestDTO[]>;
     findAcceptedAid(aidId: number): Promise<Aid>;
+    findFinishedAidsApplicant(applicantId: number): Promise<UserDto[]>;
+    findFinishedAidsWard(wardId: number): Promise<UserDto[]>;
     acceptAidRequest(aidId: number, wardId: number): Promise<{
         message: string;
         aid: Aid;

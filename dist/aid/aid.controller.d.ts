@@ -15,6 +15,8 @@ export declare class AidController {
         success: boolean;
         error: any;
     };
+    getFinishedAidApplicant(req: any): Promise<import("../user/dto/user.dto").UserDto[]>;
+    getFnishedAidWard(req: any): Promise<import("../user/dto/user.dto").UserDto[]>;
     getAcceptedAid(aidId: number): Promise<import("./aid.entity").Aid>;
     acceptPendingAid(aidId: number, req: any): Promise<{
         message: string;

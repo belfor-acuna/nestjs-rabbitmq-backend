@@ -36,6 +36,12 @@ let AidController = class AidController {
             error: error.message || "Failed to fetch pending aids",
         };
     }
+    async getFinishedAidApplicant(req) {
+        return await this.aidService.findFinishedAidsApplicant(req.user.userId);
+    }
+    async getFnishedAidWard(req) {
+        return await this.aidService.findFinishedAidsWard(req.user.userId);
+    }
     async getAcceptedAid(aidId) {
         return await this.aidService.findAcceptedAid(aidId);
     }
@@ -70,6 +76,22 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], AidController.prototype, "getPendingAids", null);
+__decorate([
+    (0, roles_decorator_1.Roles)(roles_enum_1.ROLES.Applicant),
+    (0, common_1.Get)('applicant/finished'),
+    __param(0, (0, common_1.Request)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], AidController.prototype, "getFinishedAidApplicant", null);
+__decorate([
+    (0, roles_decorator_1.Roles)(roles_enum_1.ROLES.Ward),
+    (0, common_1.Get)('ward/finished'),
+    __param(0, (0, common_1.Request)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], AidController.prototype, "getFnishedAidWard", null);
 __decorate([
     (0, roles_decorator_1.Roles)(roles_enum_1.ROLES.Ward, roles_enum_1.ROLES.Applicant),
     (0, common_1.Get)('accepted/:aidId'),

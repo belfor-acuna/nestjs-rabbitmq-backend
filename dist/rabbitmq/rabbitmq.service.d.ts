@@ -4,6 +4,7 @@ import { RequestDTO } from 'src/aid/dto/aidrequest.dto';
 export declare class RabbitmqService {
     private rabbitRequestClient;
     private rabbitAcceptClient;
+    private readonly logger;
     constructor(rabbitRequestClient: ClientProxy, rabbitAcceptClient: ClientProxy);
     placeAidRequest(aidRequest: Aid): {
         message: string;
