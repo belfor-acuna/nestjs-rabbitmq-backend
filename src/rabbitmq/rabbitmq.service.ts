@@ -24,6 +24,7 @@ export class RabbitmqService {
         request.servicesRequested = aidRequest.applicant.services;
         request.status = aidRequest.status;
         request.userId = aidRequest.applicant.id;
+        request.wardId = aidRequest.ward.id;
         this.logger.log(`Sending aid request to aid_requests_queue: ${JSON.stringify(request)}`);
         await this.rabbitRequestClient.emit('aid-request-placed', request);
         return { message: "Aid request placed!", request: request };
