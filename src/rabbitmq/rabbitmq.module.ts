@@ -23,9 +23,6 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
               name:'request',
               type:'direct'
             },
-            queueOptions: {
-              durable: false,
-            },
           },
         }),
         inject: [ConfigService],
@@ -43,9 +40,6 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
             exchange:{
               name: 'accept',
               type:'direct'
-            },
-            queueOptions: {
-              durable: false,
             },
           },
         }),
