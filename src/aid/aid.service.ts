@@ -52,6 +52,7 @@ export class AidService {
       longitude: aid.applicant.longitude,
       description: aid.applicant.description,
       status: AidStatus.PENDING,
+      wardId:wardId,
       servicesRequested: aid.applicant.services,
     }));
 

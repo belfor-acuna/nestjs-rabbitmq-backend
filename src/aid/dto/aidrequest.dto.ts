@@ -9,6 +9,9 @@ export class RequestDTO {
   @IsInt()
   userId: number;
 
+  @IsInt()
+  wardId: number;
+  
   @IsString()
   firstName: string;
 

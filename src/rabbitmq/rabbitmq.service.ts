@@ -12,7 +12,7 @@ export class RabbitmqService {
         @Inject('AID_ACCEPTED_SERVICE') private rabbitAcceptClient: ClientProxy
     ) {}
 
-    placeAidRequest(aidRequest: Aid) {
+    async placeAidRequest(aidRequest: Aid) {
         const request = new RequestDTO();
         request.address = aidRequest.address;
         request.description = aidRequest.applicant.description;
@@ -25,13 +25,13 @@ export class RabbitmqService {
         request.status = aidRequest.status;
         request.userId = aidRequest.applicant.id;
         this.logger.log(`Sending aid request to aid_requests_queue: ${JSON.stringify(request)}`);
-        this.rabbitRequestClient.emit('aid-request-placed', request);
+        await this.rabbitRequestClient.emit('aid-request-placed', request);
         return { message: "Aid request placed!", request: request };
     }
 
-    acceptRequest(acceptedAid: Aid) {
+    async acceptRequest(acceptedAid: Aid) {
         console.log(`Sending accepted aid request to aid_accepted_queue: ${JSON.stringify(acceptedAid)}`);
-        this.rabbitAcceptClient.emit('aid-request-accepted', acceptedAid);
+        await this.rabbitAcceptClient.emit('aid-request-accepted', acceptedAid);
         return { message: "Aid request accepted!", aid: acceptedAid };
     }
 }
