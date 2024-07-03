@@ -24,7 +24,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
               type:'direct'
             },
             queueOptions: {
-              durable: true,
+              durable: false,
             },
           },
         }),
@@ -45,7 +45,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
               type:'direct'
             },
             queueOptions: {
-              durable: true,
+              durable: false,
             },
           },
         }),
