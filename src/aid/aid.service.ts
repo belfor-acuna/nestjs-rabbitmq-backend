@@ -30,7 +30,7 @@ export class AidService {
     aidRequest.service = service;
     aidRequest.status = AidStatus.PENDING;
     this.aidsRepository.save(aidRequest);
-    return await this.rabbitMqService.placeAidRequest(aidRequest);
+    return await this.rabbitMqService.placeAidRequest(aidRequest , wardId);
   }
 
   async findPendingAidsForWard(wardId: number): Promise<RequestDTO[]> {
