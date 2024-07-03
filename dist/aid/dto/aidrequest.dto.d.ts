@@ -3,6 +3,7 @@ import { Service } from 'src/service/service.entity';
 export declare class RequestDTO {
     id: number;
     userId: number;
+    wardId: number;
     firstName: string;
     fullName: string;
     address: string;

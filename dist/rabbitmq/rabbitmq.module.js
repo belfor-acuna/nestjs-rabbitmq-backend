@@ -35,9 +35,6 @@ exports.RabbitmqModule = RabbitmqModule = __decorate([
                                 name: 'request',
                                 type: 'direct'
                             },
-                            queueOptions: {
-                                durable: true,
-                            },
                         },
                     }),
                     inject: [config_1.ConfigService],
@@ -55,9 +52,6 @@ exports.RabbitmqModule = RabbitmqModule = __decorate([
                             exchange: {
                                 name: 'accept',
                                 type: 'direct'
-                            },
-                            queueOptions: {
-                                durable: true,
                             },
                         },
                     }),

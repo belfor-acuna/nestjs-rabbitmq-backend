@@ -39,7 +39,7 @@ let AidService = class AidService {
         aidRequest.service = service;
         aidRequest.status = status_enum_1.AidStatus.PENDING;
         this.aidsRepository.save(aidRequest);
-        return await this.rabbitMqService.placeAidRequest(aidRequest);
+        return await this.rabbitMqService.placeAidRequest(aidRequest, wardId);
     }
     async findPendingAidsForWard(wardId) {
         const aids = await this.aidsRepository.find({
@@ -59,6 +59,7 @@ let AidService = class AidService {
             longitude: aid.applicant.longitude,
             description: aid.applicant.description,
             status: status_enum_1.AidStatus.PENDING,
+            wardId: wardId,
             servicesRequested: aid.applicant.services,
         }));
         return pendingAidsDTO;

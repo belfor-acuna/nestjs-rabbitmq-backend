@@ -6,12 +6,12 @@ export declare class RabbitmqService {
     private rabbitAcceptClient;
     private readonly logger;
     constructor(rabbitRequestClient: ClientProxy, rabbitAcceptClient: ClientProxy);
-    placeAidRequest(aidRequest: Aid): {
+    placeAidRequest(aidRequest: Aid, wardId: number): Promise<{
         message: string;
         request: RequestDTO;
-    };
-    acceptRequest(acceptedAid: Aid): {
+    }>;
+    acceptRequest(acceptedAid: Aid): Promise<{
         message: string;
         aid: Aid;
-    };
+    }>;
 }

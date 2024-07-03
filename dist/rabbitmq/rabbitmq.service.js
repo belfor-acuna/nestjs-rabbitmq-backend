@@ -23,7 +23,7 @@ let RabbitmqService = RabbitmqService_1 = class RabbitmqService {
         this.rabbitAcceptClient = rabbitAcceptClient;
         this.logger = new common_1.Logger(RabbitmqService_1.name);
     }
-    placeAidRequest(aidRequest) {
+    async placeAidRequest(aidRequest, wardId) {
         const request = new aidrequest_dto_1.RequestDTO();
         request.address = aidRequest.address;
         request.description = aidRequest.applicant.description;
@@ -35,13 +35,17 @@ let RabbitmqService = RabbitmqService_1 = class RabbitmqService {
         request.servicesRequested = aidRequest.applicant.services;
         request.status = aidRequest.status;
         request.userId = aidRequest.applicant.id;
+        this.logger.log("Ward" + aidRequest.ward);
+        this.logger.log("Ward a agregar" + wardId);
+        request.wardId = wardId;
+        this.logger.log("ward id " + wardId);
         this.logger.log(`Sending aid request to aid_requests_queue: ${JSON.stringify(request)}`);
-        this.rabbitRequestClient.emit('aid-request-placed', request);
+        await this.rabbitRequestClient.emit('aid-request-placed', request);
         return { message: "Aid request placed!", request: request };
     }
-    acceptRequest(acceptedAid) {
+    async acceptRequest(acceptedAid) {
         console.log(`Sending accepted aid request to aid_accepted_queue: ${JSON.stringify(acceptedAid)}`);
-        this.rabbitAcceptClient.emit('aid-request-accepted', acceptedAid);
+        await this.rabbitAcceptClient.emit('aid-request-accepted', acceptedAid);
         return { message: "Aid request accepted!", aid: acceptedAid };
     }
 };
