@@ -8,8 +8,7 @@ export class RabbitmqService {
     private readonly logger = new Logger(RabbitmqService.name);
 
     constructor(
-        @Inject('AID_REQUESTS_SERVICE') private rabbitRequestClient: ClientProxy,
-        @Inject('AID_ACCEPTED_SERVICE') private rabbitAcceptClient: ClientProxy
+        @Inject('AID_REQUESTS_SERVICE') private rabbitRequestClient: ClientProxy
     ) {}
 
     placeAidRequest(aidRequest: Aid) {
@@ -31,7 +30,7 @@ export class RabbitmqService {
 
     acceptRequest(acceptedAid: Aid) {
         console.log(`Sending accepted aid request to aid_accepted_queue: ${JSON.stringify(acceptedAid)}`);
-        this.rabbitAcceptClient.emit('aid-request-accepted', acceptedAid);
+        this.rabbitRequestClient.emit('aid-request-accepted', acceptedAid);
         return { message: "Aid request accepted!", aid: acceptedAid };
     }
 }
