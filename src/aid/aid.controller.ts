@@ -42,6 +42,18 @@ export class AidController {
     };
   }
 
+  @Roles(ROLES.Applicant)
+  @Get('applicant/finished')
+  async getFinishedAidApplicant(@Request() req){
+    return await this.aidService.findFinishedAidsApplicant(req.user.userId)
+  }
+
+  @Roles(ROLES.Ward)
+  @Get('ward/finished')
+  async getFnishedAidWard(@Request() req){
+    return await this.aidService.findFinishedAidsWard(req.user.userId)
+  }
+
   @Roles(ROLES.Ward, ROLES.Applicant)
   @Get('accepted/:aidId')
   async getAcceptedAid(@Param("aidId") aidId: number){

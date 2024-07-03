@@ -7,6 +7,7 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { AidStatus } from "./enum/status.enum";
 import { RabbitmqService } from "src/rabbitmq/rabbitmq.service";
 import { RequestDTO } from "./dto/aidrequest.dto";
+import { UserDto } from "src/user/dto/user.dto";
 
 @Injectable()
 export class AidService {
@@ -68,6 +69,53 @@ export class AidService {
 
     return aid;
   }
+
+  async findFinishedAidsApplicant(applicantId: number):Promise<UserDto[]>{
+    const aids = await this.aidsRepository.find({
+      where: {
+        applicant: {id:applicantId},
+        status: AidStatus.COMPLETED
+      },      relations: ["ward", "applicant", "applicant.services"],
+    });
+
+      const finishedAids: UserDto[] = aids.map((aid)=>
+      ({
+        id:aid.ward.id,
+        firstName: aid.ward.firstName,
+        fullName : `${aid.ward.firstName} ${aid.ward.lastName}`,
+        description: aid.ward.description,
+        address: aid.ward.address,
+        photoUrl: 'https://i.ibb.co/hfkbnCx/sabes-que-es-la-edad-biologica-mobile.jpg',
+        servicesRequested: aid.ward.services,
+        latitude: -38.7299815415665,
+        longitude:-72.585838313291
+      }))
+    return  finishedAids;
+  }
+
+  async findFinishedAidsWard(wardId: number):Promise<UserDto[]>{
+    const aids = await this.aidsRepository.find({
+      where: {
+        ward: {id:wardId},
+        status: AidStatus.COMPLETED
+      },      relations: ["ward", "applicant", "applicant.services"],
+    });
+
+      const finishedAids: UserDto[] = aids.map((aid)=>
+      ({
+        id:aid.applicant.id,
+        firstName: aid.applicant.firstName,
+        fullName : `${aid.applicant.firstName} ${aid.applicant.lastName}`,
+        description: aid.applicant.description,
+        address: aid.applicant.address,
+        photoUrl: 'https://i.ibb.co/hfkbnCx/sabes-que-es-la-edad-biologica-mobile.jpg',
+        servicesRequested: aid.applicant.services,
+        latitude: -38.7299815415665,
+        longitude:-72.585838313291
+      }))
+    return  finishedAids;
+  }
+  
   
 
   async acceptAidRequest(aidId: number, wardId: number){
