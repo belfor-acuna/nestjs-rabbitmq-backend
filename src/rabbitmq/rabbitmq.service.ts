@@ -25,7 +25,7 @@ export class RabbitmqService {
         request.status = aidRequest.status;
         request.userId = aidRequest.applicant.id;
         this.logger.log("Ward" + aidRequest.ward)
-        this.logger.log("Ward a agregar" + wardId;
+        this.logger.log("Ward a agregar" + wardId);
         request.wardId = wardId;
         this.logger.log("ward id " + wardId);
         this.logger.log(`Sending aid request to aid_requests_queue: ${JSON.stringify(request)}`);
