@@ -263,9 +263,9 @@ ClientsModule.registerAsync([
 await this.rabbitRequestClient.emit('aid-request-placed', request);
 ```
 
-## 🗄️ Base de Datos
+## 🗄️ Database
 
-### Configuración TypeORM
+### TypeORM Configuration
 
 ```typescript
 TypeOrmModule.forRootAsync({
@@ -277,22 +277,22 @@ TypeOrmModule.forRootAsync({
     password: configService.get<string>('DB_PASSWORD'),
     database: configService.get<string>('DB_DATABASE'),
     entities: [Aid, User, Service],
-    synchronize: true, // Solo en desarrollo
+    synchronize: true, // Development only
   })
 })
 ```
 
-### Relaciones Principales
-- **User ↔ Aid**: One-to-Many (como ward y como applicant)
-- **User ↔ Service**: Many-to-Many (servicios que ofrece/necesita)
-- **Aid**: Estados del ciclo de vida de solicitudes
+### Main Relationships
+- **User ↔ Aid**: One-to-Many (as ward and as applicant)
+- **User ↔ Service**: Many-to-Many (services offered/needed)
+- **Aid**: Request lifecycle states
 
-## 🐳 Docker y Despliegue
+## 🐳 Docker and Deployment
 
-### Servicios en Docker Compose
-- **nestjs-app**: Aplicación principal (puerto 3000)
-- **postgres**: Base de datos (puerto 5432)
-- **rabbitmq**: Message broker (puertos 5672, 15672)
+### Docker Compose Services
+- **nestjs-app**: Main application (port 3000)
+- **postgres**: Database (port 5432)
+- **rabbitmq**: Message broker (ports 5672, 15672)
 
 ### Dockerfile
 ```dockerfile
@@ -306,39 +306,39 @@ EXPOSE 3000
 CMD ["npm", "run", "start:prod"]
 ```
 
-### Comandos Docker Útiles
+### Useful Docker Commands
 
 ```bash
-# Reconstruir imagen
+# Rebuild image
 docker-compose build nestjs-app
 
-# Ver logs específicos
+# View specific logs
 docker-compose logs rabbitmq
 docker-compose logs postgres
 
-# Acceder al contenedor
+# Access container
 docker-compose exec nestjs-app sh
 
-# Reiniciar servicio específico
+# Restart specific service
 docker-compose restart rabbitmq
 ```
 
-## 🔍 API Endpoints Principales
+## 🔍 Main API Endpoints
 
-### Gestión de Ayuda
+### Aid Management
 ```typescript
-POST /aid/request/:wardId/:service    # Crear solicitud
-GET  /aid/pending/:wardId            # Solicitudes pendientes para ward
-POST /aid/accept/:aidId              # Aceptar solicitud
-POST /aid/reject/:aidId              # Rechazar solicitud
-POST /aid/finish/:aidId              # Marcar como completada
+POST /aid/request/:wardId/:service    # Create request
+GET  /aid/pending/:wardId            # Pending requests for ward
+POST /aid/accept/:aidId              # Accept request
+POST /aid/reject/:aidId              # Reject request
+POST /aid/finish/:aidId              # Mark as completed
 ```
 
-### Gestión de Usuarios
+### User Management
 ```typescript
-GET  /user/wards                     # Listar voluntarios
-GET  /user/profile/:id               # Perfil de usuario
-PUT  /user/profile                   # Actualizar perfil
+GET  /user/wards                     # List volunteers
+GET  /user/profile/:id               # User profile
+PUT  /user/profile                   # Update profile
 ```
 
 ## 🧪 Testing
