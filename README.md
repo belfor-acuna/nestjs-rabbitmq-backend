@@ -1,79 +1,79 @@
 # Ward Backend API
 
-Una API REST desarrollada con NestJS para un sistema de gestión de ayuda comunitaria que conecta solicitantes de ayuda con voluntarios (wards) a través de un sistema de mensajería asíncrona con RabbitMQ.
+A REST API developed with NestJS for a community aid management system that connects help seekers with volunteers (wards) through an asynchronous messaging system with RabbitMQ.
 
-## 📋 Descripción
+## 📋 Description
 
-Ward Backend API es un sistema que permite:
-- **Solicitantes (Applicants)**: Pueden registrarse, solicitar ayuda y gestionar sus peticiones
-- **Voluntarios (Wards)**: Pueden registrarse, ofrecer servicios y responder a solicitudes de ayuda
-- **Sistema de mensajería**: Utiliza RabbitMQ para el procesamiento asíncrono de solicitudes de ayuda
-- **Autenticación segura**: JWT con hash de contraseñas usando bcrypt y salt
+Ward Backend API is a system that enables:
+- **Applicants**: Can register, request help, and manage their requests
+- **Volunteers (Wards)**: Can register, offer services, and respond to help requests
+- **Messaging System**: Uses RabbitMQ for asynchronous processing of aid requests
+- **Secure Authentication**: JWT with password hashing using bcrypt and salt
 
-## 🛠️ Stack Tecnológico
+## 🛠️ Technology Stack
 
-### Framework Principal
-- **NestJS 10.x** - Framework de Node.js para aplicaciones escalables
-- **TypeScript** - Lenguaje de programación tipado
-- **Node.js 22** - Runtime de JavaScript
+### Core Framework
+- **NestJS 10.x** - Node.js framework for scalable applications
+- **TypeScript** - Typed programming language
+- **Node.js 22** - JavaScript runtime
 
-### Base de Datos
-- **PostgreSQL** - Base de datos relacional principal
-- **TypeORM** - ORM para TypeScript y JavaScript
+### Database
+- **PostgreSQL** - Primary relational database
+- **TypeORM** - ORM for TypeScript and JavaScript
 
-### Mensajería Asíncrona
-- **RabbitMQ 3** - Message broker para comunicación asíncrona
-- **AMQP** - Protocolo de mensajería avanzada
+### Asynchronous Messaging
+- **RabbitMQ 3** - Message broker for asynchronous communication
+- **AMQP** - Advanced Message Queuing Protocol
 
-### Autenticación y Seguridad
-- **JWT (JSON Web Tokens)** - Autenticación stateless
-- **bcrypt** - Hash de contraseñas con salt
-- **Guards y Decorators** - Sistema de autorización basado en roles
+### Authentication & Security
+- **JWT (JSON Web Tokens)** - Stateless authentication
+- **bcrypt** - Password hashing with salt
+- **Guards & Decorators** - Role-based authorization system
 
-### Validación y Transformación
-- **class-validator** - Validación de DTOs
-- **class-transformer** - Transformación de objetos
+### Validation & Transformation
+- **class-validator** - DTO validation
+- **class-transformer** - Object transformation
 
-### Contenedorización
-- **Docker** - Contenedorización de la aplicación
-- **Docker Compose** - Orquestación de servicios
+### Containerization
+- **Docker** - Application containerization
+- **Docker Compose** - Service orchestration
 
-## 🏗️ Arquitectura del Sistema
+## 🏗️ System Architecture
 
-### Módulos Principales
+### Main Modules
 
 #### 1. **AuthModule**
-- Manejo de autenticación JWT
-- Registro de usuarios (Ward/Applicant)
-- Login y validación de tokens
-- Guards para protección de rutas
+- JWT authentication handling
+- User registration (Ward/Applicant)
+- Login and token validation
+- Guards for route protection
 
 #### 2. **UserModule**
-- Gestión de usuarios (Ward y Applicant)
-- Perfiles de usuario con servicios
-- Roles y permisos
+- User management (Ward and Applicant)
+- User profiles with services
+- Roles and permissions
 
 #### 3. **AidModule**
-- Gestión de solicitudes de ayuda
-- Estados: PENDING, ACCEPTED, REJECTED, COMPLETED
-- Relaciones entre solicitantes y voluntarios
+- Aid request management
+- States: PENDING, ACCEPTED, REJECTED, COMPLETED
+- Relationships between applicants and volunteers
 
 #### 4. **RabbitmqModule**
-- Configuración de colas de mensajes
-- Procesamiento asíncrono de solicitudes
-- Dos colas principales:
-  - `aid_requests_queue` - Nuevas solicitudes
-  - `aid_accept_queue` - Solicitudes aceptadas
+- Message queue configuration
+- Asynchronous request processing
+- Two main queues:
+  - `aid_requests_queue` - New requests
+  - `aid_accept_queue` - Accepted requests
 
 #### 5. **SecurityModule**
-- Generación de salt y hash para contraseñas
-- Servicios de seguridad centralizados
+- Salt and hash generation for passwords
+- Centralized security services
 
 #### 6. **ServiceModule**
-- Catálogo de servicios disponibles
-- Relación many-to-many con usuarios
+- Available services catalog
+- Many-to-many relationship with users
 
-### Entidades de Base de Datos
+### Database Entities
 
 #### User Entity
 ```typescript
@@ -110,16 +110,16 @@ Ward Backend API es un sistema que permite:
 - service_user: User[] (many-to-many)
 ```
 
-## 🚀 Instalación y Configuración
+## 🚀 Installation and Setup
 
-### Prerrequisitos
+### Prerequisites
 - Node.js 22+
-- Docker y Docker Compose
-- PostgreSQL (si no usas Docker)
-- RabbitMQ (si no usas Docker)
+- Docker and Docker Compose
+- PostgreSQL (if not using Docker)
+- RabbitMQ (if not using Docker)
 
-### Variables de Entorno
-Crea un archivo `.env` con las siguientes variables:
+### Environment Variables
+Create a `.env` file with the following variables:
 
 ```env
 # Database
@@ -139,109 +139,109 @@ RABBITMQ_USER=your_rabbitmq_user
 RABBITMQ_PASSWORD=your_rabbitmq_password
 ```
 
-### Instalación Local
+### Local Installation
 
 ```bash
-# Clonar el repositorio
+# Clone the repository
 git clone <repository-url>
 cd ward-backend-api
 
-# Instalar dependencias
+# Install dependencies
 npm install
 
-# Ejecutar en modo desarrollo
+# Run in development mode
 npm run start:dev
 
-# Ejecutar en modo producción
+# Run in production mode
 npm run start:prod
 ```
 
-### Instalación con Docker
+### Docker Installation
 
 ```bash
-# Levantar todos los servicios
+# Start all services
 docker-compose up -d
 
-# Ver logs
+# View logs
 docker-compose logs -f nestjs-app
 
-# Detener servicios
+# Stop services
 docker-compose down
 ```
 
-## 🔧 Scripts Disponibles
+## 🔧 Available Scripts
 
 ```bash
-# Desarrollo
-npm run start:dev      # Modo desarrollo con hot reload
-npm run start:debug    # Modo debug
+# Development
+npm run start:dev      # Development mode with hot reload
+npm run start:debug    # Debug mode
 
-# Producción
-npm run build          # Compilar aplicación
-npm run start:prod     # Ejecutar en producción
+# Production
+npm run build          # Build application
+npm run start:prod     # Run in production
 
 # Testing
-npm run test           # Tests unitarios
-npm run test:e2e       # Tests end-to-end
-npm run test:cov       # Coverage de tests
+npm run test           # Unit tests
+npm run test:e2e       # End-to-end tests
+npm run test:cov       # Test coverage
 
-# Calidad de código
+# Code Quality
 npm run lint           # ESLint
 npm run format         # Prettier
 ```
 
-## 🔐 Sistema de Autenticación
+## 🔐 Authentication System
 
-### Flujo de Autenticación
-1. **Registro**: Los usuarios se registran como Ward o Applicant
-2. **Hash de contraseña**: Se genera un salt único y se hashea la contraseña con bcrypt
-3. **Login**: Validación de credenciales y generación de JWT
-4. **Autorización**: Guards verifican tokens y roles en cada request
+### Authentication Flow
+1. **Registration**: Users register as Ward or Applicant
+2. **Password Hashing**: A unique salt is generated and password is hashed with bcrypt
+3. **Login**: Credential validation and JWT generation
+4. **Authorization**: Guards verify tokens and roles on each request
 
-### Endpoints de Autenticación
+### Authentication Endpoints
 
 ```typescript
-POST /auth/register/ward        # Registro de voluntario
-POST /auth/register/applicant   # Registro de solicitante
-POST /auth/login               # Login (ambos roles)
-GET  /auth/me                  # Perfil del usuario autenticado
+POST /auth/register/ward        # Volunteer registration
+POST /auth/register/applicant   # Applicant registration
+POST /auth/login               # Login (both roles)
+GET  /auth/me                  # Authenticated user profile
 ```
 
-### Roles y Permisos
-- **Ward**: Puede aceptar/rechazar solicitudes, ofrecer servicios
-- **Applicant**: Puede crear solicitudes de ayuda, ver historial
+### Roles and Permissions
+- **Ward**: Can accept/reject requests, offer services
+- **Applicant**: Can create aid requests, view history
 
-## 📨 Sistema de Mensajería con RabbitMQ
+## 📨 RabbitMQ Messaging System
 
-### Configuración de Colas
+### Queue Configuration
 
-#### Cola de Solicitudes (`aid_requests_queue`)
-- **Exchange**: `request` (tipo: direct)
-- **Patrón**: `aid-request-placed`
-- **Propósito**: Procesar nuevas solicitudes de ayuda
+#### Requests Queue (`aid_requests_queue`)
+- **Exchange**: `request` (type: direct)
+- **Pattern**: `aid-request-placed`
+- **Purpose**: Process new aid requests
 
-#### Cola de Aceptaciones (`aid_accept_queue`)
-- **Exchange**: `accept` (tipo: direct)
-- **Patrón**: `aid-request-accepted`
-- **Propósito**: Procesar solicitudes aceptadas
+#### Acceptance Queue (`aid_accept_queue`)
+- **Exchange**: `accept` (type: direct)
+- **Pattern**: `aid-request-accepted`
+- **Purpose**: Process accepted requests
 
-### Flujo de Mensajes
+### Message Flow
 
 ```mermaid
 graph TD
-    A[Applicant crea solicitud] --> B[AidService.createAidRequest]
-    B --> C[Guardar en BD]
+    A[Applicant creates request] --> B[AidService.createAidRequest]
+    B --> C[Save to DB]
     C --> D[RabbitMQ: aid-request-placed]
-    D --> E[Ward recibe notificación]
-    E --> F[Ward acepta/rechaza]
+    D --> E[Ward receives notification]
+    E --> F[Ward accepts/rejects]
     F --> G[RabbitMQ: aid-request-accepted]
-    G --> H[Applicant recibe confirmación]
+    G --> H[Applicant receives confirmation]
 ```
 
-### Implementación RabbitMQ
+### RabbitMQ Implementation
 
 ```typescript
-// Configuración del cliente
+// Client configuration
 ClientsModule.registerAsync([
   {
     name: 'AID_REQUESTS_SERVICE',
@@ -259,7 +259,7 @@ ClientsModule.registerAsync([
   }
 ])
 
-// Envío de mensajes
+// Message sending
 await this.rabbitRequestClient.emit('aid-request-placed', request);
 ```
 
