@@ -343,37 +343,37 @@ PUT  /user/profile                   # Update profile
 
 ## 🧪 Testing
 
-### Estructura de Tests
+### Test Structure
 ```bash
 src/
-├── **/*.spec.ts          # Tests unitarios
+├── **/*.spec.ts          # Unit tests
 test/
-├── **/*.e2e-spec.ts      # Tests end-to-end
-└── jest-e2e.json         # Configuración E2E
+├── **/*.e2e-spec.ts      # End-to-end tests
+└── jest-e2e.json         # E2E configuration
 ```
 
-### Ejecutar Tests
+### Running Tests
 ```bash
-# Tests unitarios con watch
+# Unit tests with watch
 npm run test:watch
 
-# Tests con coverage
+# Tests with coverage
 npm run test:cov
 
-# Tests E2E
+# E2E tests
 npm run test:e2e
 ```
 
-## 🚨 Manejo de Errores
+## 🚨 Error Handling
 
-### Guards Personalizados
-- **AuthGuard**: Validación de JWT
-- **RolesGuard**: Verificación de roles
-- **Public Decorator**: Rutas públicas sin autenticación
+### Custom Guards
+- **AuthGuard**: JWT validation
+- **RolesGuard**: Role verification
+- **Public Decorator**: Public routes without authentication
 
-### Validación de DTOs
+### DTO Validation
 ```typescript
-// Ejemplo de DTO con validaciones
+// Example DTO with validations
 export class RegisterAuthDto {
   @IsEmail()
   email: string;
@@ -387,39 +387,39 @@ export class RegisterAuthDto {
 }
 ```
 
-## 📊 Monitoreo y Logs
+## 📊 Monitoring and Logs
 
 ### RabbitMQ Management
 - **URL**: http://localhost:15672
-- **Credenciales**: Configuradas en variables de entorno
-- **Funciones**: Monitoreo de colas, mensajes, conexiones
+- **Credentials**: Configured in environment variables
+- **Features**: Queue monitoring, messages, connections
 
-### Logs de Aplicación
+### Application Logs
 ```typescript
-// Logger integrado de NestJS
+// NestJS integrated logger
 private readonly logger = new Logger(RabbitmqService.name);
 this.logger.log(`Sending aid request: ${JSON.stringify(request)}`);
 ```
 
-## 🔧 Configuración Avanzada
+## 🔧 Advanced Configuration
 
-### Variables de Entorno por Ambiente
+### Environment Variables by Environment
 
-#### Desarrollo (.env.development)
+#### Development (.env.development)
 ```env
 DB_HOST=localhost
 RABBITMQ_HOST=localhost
 JWT_SECRET=dev_secret_key
 ```
 
-#### Producción (.env.production)
+#### Production (.env.production)
 ```env
 DB_HOST=prod_db_host
 RABBITMQ_HOST=prod_rabbitmq_host
 JWT_SECRET=secure_production_key
 ```
 
-### Configuración de CORS
+### CORS Configuration
 ```typescript
 app.enableCors({
   origin: "*",
@@ -428,22 +428,18 @@ app.enableCors({
 });
 ```
 
-## 🤝 Contribución
+## 🤝 Contributing
 
-1. Fork el proyecto
-2. Crea una rama para tu feature (`git checkout -b feature/AmazingFeature`)
-3. Commit tus cambios (`git commit -m 'Add some AmazingFeature'`)
-4. Push a la rama (`git push origin feature/AmazingFeature`)
-5. Abre un Pull Request
+1. Fork the project
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
-## 📝 Licencia
+## 👥 Development Stack
 
-Este proyecto está bajo la Licencia UNLICENSED - ver el archivo [LICENSE](LICENSE) para detalles.
-
-## 👥 Equipo de Desarrollo
-
-- **Arquitectura**: NestJS + TypeScript
-- **Base de Datos**: PostgreSQL + TypeORM
-- **Mensajería**: RabbitMQ + AMQP
-- **Seguridad**: JWT + bcrypt
-- **Contenedores**: Docker + Docker Compose
+- **Architecture**: NestJS + TypeScript
+- **Database**: PostgreSQL + TypeORM
+- **Messaging**: RabbitMQ + AMQP
+- **Security**: JWT + bcrypt
+- **Containers**: Docker + Docker Compose
